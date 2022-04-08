@@ -1,0 +1,6 @@
+.add-button {
+    width: 150px;
+    height: 50px;
+    border: 2px #FFFFFF;
+    align-self: flex-end;
+}
