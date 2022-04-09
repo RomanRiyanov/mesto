@@ -1,5 +1,8 @@
 .profile {
     display: flex;
     max-width: 880px;
-    justify-content: space-between;
+    margin: 0 auto 51px;
+    width: 100%;
+    color: #FFFFFF;
+    align-items: center;
 }
