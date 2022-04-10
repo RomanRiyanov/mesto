@@ -6,3 +6,12 @@
     color: #FFFFFF;
     align-items: center;
 }
+
+
+@media (max-width: 1024px) {
+    .profile {
+        flex-direction: column;
+        justify-items: center;
+        margin-bottom: 36px;
+    }
+}

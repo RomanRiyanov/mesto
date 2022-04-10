@@ -2,3 +2,9 @@
     max-width: 142px;
     margin: 45px 0 41px 0;
 }
+
+@media (max-width: 768px) {
+    .header__logo {
+        margin: 28px 0 31px 27px;
+    }
+}
