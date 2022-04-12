@@ -4,11 +4,17 @@
     border: 2px solid #FFFFFF;
     margin-left: auto;
     box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    place-items: center;
+    background: none;
+    box-shadow: none;
+    cursor: pointer;
+    transition: opacity 0.5s;
 }
 
+.add-button:hover {
+    opacity: 0.6;
+}
 
 @media (max-width: 1024px) {
     .add-button {
