@@ -1,11 +1,12 @@
 .profile__info {
+    position: relative;
     margin-left: 30px;
     display: grid;
     grid-template-columns: minmax(min-content, 294px) minmax(min-content, 24px);
     grid-template-rows: minmax(min-content, max-content) minmax(min-content, max-content);
     column-gap: 18px;
-    row-gap: 16px;
-    align-items: flex-end;
+    row-gap: 5px;
+    align-items: center;
 }
 
 @media (max-width: 1024px) {
@@ -17,6 +18,9 @@
 
 @media (max-width: 768px) {
     .profile__info {
-        grid-template-columns: repeat(2, minmax(min-content, max-content));
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 7px;
     }
 }

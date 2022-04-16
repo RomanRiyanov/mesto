@@ -6,7 +6,10 @@
     box-sizing: border-box;
     display: grid;
     place-items: center;
-    background: none;
+    background: url(../../images/cross.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 22px;
     box-shadow: none;
     cursor: pointer;
     transition: opacity 0.5s;
@@ -21,5 +24,6 @@
         margin: 0;
         width: 100%;
         max-width: 282px;
+        background-size: 16px;
     }
 }

@@ -13,12 +13,9 @@ let jobInput = popupForm.querySelector('.popup__input[name=profession]');
 
 function popupIsViewable() {
     popup.classList.toggle('popup_viewable');
-}
 
-function popupOverlayClosability(e) {
-    if (e.target === e.currentTarget) {
-        popupIsViewable();
-    }
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileInfo.textContent;
 }
 
 function editName(event) {
@@ -26,13 +23,13 @@ function editName(event) {
 
     profileName.textContent = nameInput.value;
     profileInfo.textContent = jobInput.value;
+
+    popupIsViewable();
 }
 
 editButton.addEventListener('click', popupIsViewable);
 
 closeButton.addEventListener('click', popupIsViewable);
 
-popup.addEventListener('click', popupOverlayClosability);
-
 popupForm.addEventListener('submit', editName);
-saveButton.addEventListener('click', popupIsViewable);
+
