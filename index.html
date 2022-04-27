@@ -25,50 +25,8 @@
             </section>
 
             <section class="elements">
-                <div class="element">
-                    <img class="element__photo" src="./images/karachaevsk.jpg" alt="Карачаевск">
-                    <div class="element__container">
-                        <h2 class="element__title">Карачаевск</h2>
-                        <button aria-label="Like" class="like-button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__photo" src="./images/dombai.jpg" alt="Домбай">
-                    <div class="element__container">
-                        <h2 class="element__title">Домбай</h2>
-                        <button aria-label="Like" class="like-button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__photo" src="./images/elbrus.jpg" alt="Эльбрус">
-                    <div class="element__container">
-                        <h2 class="element__title">Эльбрус</h2>
-                        <button aria-label="Like" class="like-button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__photo" src="./images/litva.jpg" alt="Литва">
-                    <div class="element__container">
-                        <h2 class="element__title">Литва</h2>
-                        <button aria-label="Like" class="like-button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__photo" src="./images/sydney.jpg" alt="Сидней">
-                    <div class="element__container">
-                        <h2 class="element__title">Сидней</h2>
-                        <button aria-label="Like" class="like-button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__photo" src="./images/coral.jpg" alt="Барьерный риф">
-                    <div class="element__container">
-                        <h2 class="element__title">Большой барьерный риф</h2>
-                        <button aria-label="Like" class="like-button"></button>
-                    </div>
-                </div>
             </section>
-
+            
             <section class="footer">
                 <p class="footer__copyright">&#169;	2022 Роман Риянов</p>
             </section>
@@ -88,6 +46,52 @@
             </form>
         </div>
     </div>
+
+    <div class="popup" id="popup_add-photo">
+        <div class="popup__window">
+            <button aria-label="Close" class="close-button" id="close-button_add-photo"></button>
+            <h2 class="popup__title">Новое место</h2>
+            <form class="popup__form" id="popup__form_add-photo">
+                <input class="popup__input" placeholder="Название" type="text" name="place">
+                <input class="popup__input" placeholder="Ссылка на картинку" type="text" name="image-url">
+                <button aria-label="Create" class="create-button" type="submit">
+                    Создать
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+    <div class="popup" id="popup_view-photo">
+        <div class="popup__window popup__window_image">
+            <button aria-label="Close" class="close-button" id="close-button_view-photo"></button>
+            <figure>
+                <img class="popup__view-image" src="" alt="Фотография из карточки">
+                <figcaption class="popup__figcaption"></figcaption>
+            </figure>            
+        </div>
+    </div>
+
+
+
+
+    
+    <template id="element">
+        <div class="element">
+            <img class="element__photo" src="" alt="Добавленная фотография">
+            <div class="element__container">
+                <h2 class="element__title"></h2>
+                <button aria-label="Like" class="like-button"></button>
+                <button aria-label="Delete" class="delete-button"></button>
+            </div>
+        </div>
+    </template>
+
+
+
+
 
     <script src="./scripts/script.js"></script>
 </body>
