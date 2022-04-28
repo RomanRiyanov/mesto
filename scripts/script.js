@@ -116,6 +116,7 @@ let createNewElement = (item) => {
 
     let elementPhoto = element.querySelector('.element__photo');
     elementPhoto.src = item.link;
+    elementPhoto.addEventListener('click', imageViewOpen);
 
     let elementTitle = element.querySelector('.element__title');
     elementTitle.textContent = item.name;
@@ -141,7 +142,6 @@ initialCards.forEach((item) => {
 
 let imageViewPopup = document.querySelector('#popup_view-photo');
 let imageViewCloseButton = document.querySelector('#close-button_view-photo');
-let elementPhoto = document.querySelector('.element__photo');
 
 function imageViewPopupIsViewable() {
   imageViewPopup.classList.toggle('popup_viewable');
@@ -151,11 +151,10 @@ function imageViewOpen(event) {
   let viewImage = document.querySelector('.popup__view-image');
   let figcaption = document.querySelector('.popup__figcaption');
 
-  event.target.link = viewImage.src;
-  event.target.name = figcaption.value;
-
+  viewImage.src = event.target.closest('.element__photo').src;
+  figcaption.textContent = event.target.nextElementSibling.children[0].textContent;
+  
   imageViewPopupIsViewable();
 }
 
 imageViewCloseButton.addEventListener('click', imageViewPopupIsViewable);
-elementPhoto.addEventListener('click', imageViewOpen);

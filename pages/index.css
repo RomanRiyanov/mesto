@@ -28,15 +28,9 @@
 @import url(../blocks/popup/__form/popup__form.css);
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/save-button/save-button.css);
-
-/*
-@import url(../blocks/popup/_add-photo/popup_add-photo.css);
-@import url(../blocks/popup/__form/_add-photo/popup__form_add-photo.css);
-@import url(../blocks/close-button/_add-photo/close-button_add-photo.css);
-нужно удалить эти классы
-*/
 @import url(../blocks/create-button/create-button.css);
 @import url(../blocks/delete-button/delete-button.css);
-@import url(../blocks/popup/__window/_image/popup__window_image.css);
+@import url(../blocks/popup/__window-image/popup__window-image.css);
 @import url(../blocks/popup/__view/popup__view-image.css);
 @import url(../blocks/popup/__figcaption/popup__figcaption.css);
+@import url(../blocks/figure/figure.css);
