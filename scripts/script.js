@@ -1,3 +1,4 @@
+//переменные и константы
 //окно редактирования имени профиля
 
 const popup = document.querySelector('.popup');
@@ -36,7 +37,8 @@ const elementTemplate =
     document.querySelector('#element').
     content.querySelector('.element');
 
-//обработчики редактирования имени профиля
+//функции
+//функции редактирования имени профиля
 
 function openPopup(popup) {
   popup.classList.add('popup_viewable');
@@ -44,15 +46,6 @@ function openPopup(popup) {
 
 function closePopup(popup) {
   popup.classList.remove('popup_viewable');
-}
-
-function openPopupEditProfile() {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileInfo.textContent;
-}
-
-function resetFormPopupAddPhoto() {
-  addPhotoPopupForm.reset();
 }
 
 function editProfile(event) {
@@ -64,14 +57,7 @@ function editProfile(event) {
     closePopup(popup);
 }
 
-editButton.addEventListener('click', () => {openPopup(popup)});
-editButton.addEventListener('click', openPopupEditProfile);
-
-closeButton.addEventListener('click', () => {closePopup(popup)});
-
-popupFormEditProfile.addEventListener('submit', editProfile);
-
-//обработчики добавления новой карточки с фотографией
+//функции добавления новой карточки с фотографией
 
 function addPhotoOnPage(event) {
   event.preventDefault();
@@ -81,64 +67,83 @@ function addPhotoOnPage(event) {
   closePopup(addPhotoPopup);
 }
 
-addButton.addEventListener('click', () => {openPopup(addPhotoPopup)});
-addButton.addEventListener('click', resetFormPopupAddPhoto);
+//функции генерации новой карточки
+
+const createNewElement = (item) => {
+  const element = elementTemplate.cloneNode(true);
+
+  const elementPhoto = element.querySelector('.element__photo');
+  elementPhoto.src = item.link;
+  elementPhoto.addEventListener('click', openImageView);
+
+  const elementTitle = element.querySelector('.element__title');
+  elementTitle.textContent = item.name;
+
+  elementPhoto.alt = elementTitle.textContent;
+
+  const likeButton = element.querySelector('.like-button');
+  likeButton.addEventListener('click', likeButtonHandler);
+
+  const deleteButton = element.querySelector('.delete-button');
+  deleteButton.addEventListener('click', deleteButtonHandler);
+
+  return element;
+}
+
+const likeButtonHandler = function (event) {
+event.target.classList.toggle('like-button_active');
+}
+
+const deleteButtonHandler = function (event) {
+event.target.closest('.element').remove();
+}
+
+const addNewElementOnStart = (item) => {
+cardsContainer.prepend(createNewElement(item));
+};
+
+const addNewElement = (item) => {
+  cardsContainer.append(createNewElement(item));
+};
+
+initialCards.forEach((item) => {
+  addNewElement(item);
+});
+
+//функции открытия просмотра фотографии
+
+function openImageView(event) {
+  viewImage.src = event.target.src;
+  viewImage.alt = event.target.alt;
+  figcaption.textContent = event.target.alt;
+  
+  openPopup(imageViewPopup);
+}
+
+//обработчики событий
+//обработчики редактирования имени профиля
+
+editButton.addEventListener('click', () => {
+  openPopup(popup);
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileInfo.textContent;
+});
+
+closeButton.addEventListener('click', () => {closePopup(popup)});
+
+popupFormEditProfile.addEventListener('submit', editProfile);
+
+//обработчики добавления новой карточки с фотографией
+
+addButton.addEventListener('click', () => {
+  openPopup(addPhotoPopup);
+  addPhotoPopupForm.reset();
+});
 
 addPhotoCloseButton.addEventListener('click', () => {closePopup(addPhotoPopup)});
 
 addPhotoPopupForm.addEventListener('submit', addPhotoOnPage);
 
-//генерация карточки
-
-const createNewElement = (item) => {
-    const element = elementTemplate.cloneNode(true);
-
-    const elementPhoto = element.querySelector('.element__photo');
-    elementPhoto.src = item.link;
-    elementPhoto.addEventListener('click', OpenImageView);
-
-    const elementTitle = element.querySelector('.element__title');
-    elementTitle.textContent = item.name;
-
-    elementPhoto.alt = elementTitle.textContent;
-
-    const likeButton = element.querySelector('.like-button');
-    likeButton.addEventListener('click', likeButtonHandler);
-
-    const deleteButton = element.querySelector('.delete-button');
-    deleteButton.addEventListener('click', deleteButtonHandler);
-
-    return element;
-}
-
-const likeButtonHandler = function (event) {
-  event.target.classList.toggle('like-button_active');
-}
-
-const deleteButtonHandler = function (event) {
-  event.target.closest('.element').remove();
-}
-
-const addNewElementOnStart = (item) => {
-  cardsContainer.prepend(createNewElement(item));
-};
-
-const addNewElement = (item) => {
-    cardsContainer.append(createNewElement(item));
-};
-
-initialCards.forEach((item) => {
-    addNewElement(item);
-});
-
 //обработчики открытия просмотра фотографии
-
-function OpenImageView(event) {
-  
-  viewImage.src = event.target.closest('.element__photo').src;
-  figcaption.textContent = event.target.nextElementSibling.children[0].textContent;
-  
-  openPopup(imageViewPopup);
-}
 
 imageViewCloseButton.addEventListener('click', () => {closePopup(imageViewPopup)});
