@@ -8,6 +8,8 @@ const editButton = document.querySelector('.edit-button');
 const saveButton = document.querySelector('.save-button');
 const addButton = document.querySelector('.add-button');
 
+const popupList = Array.from(document.querySelectorAll('.popup'));
+
 const profileName = document.querySelector('.profile__title');
 const profileInfo = document.querySelector('.profile__subtitle');
 
@@ -42,10 +44,12 @@ const elementTemplate =
 
 function openPopup(popup) {
   popup.classList.add('popup_viewable');
+  document.addEventListener('keydown', () => {closePopapByPressEscape(popup)});
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_viewable');
+  document.removeEventListener('keydown', () => {closePopapByPressEscape(popup)});
 }
 
 function editProfile(event) {
@@ -120,6 +124,22 @@ function openImageView(event) {
   openPopup(imageViewPopup);
 }
 
+//функция закрытия по клику на темном фоне
+
+function closePopapByPressOnOverlay (popup) {
+  if (event.target === event.currentTarget) {
+    closePopup(popup);
+  }
+}
+
+//функция закрытия по нажатию на Escape
+
+function closePopapByPressEscape (popup) {
+  if (event.key === 'Escape') {
+    closePopup(popup);
+  }
+}
+
 //обработчики событий
 //обработчики редактирования имени профиля
 
@@ -147,3 +167,9 @@ addPhotoPopupForm.addEventListener('submit', addPhotoOnPage);
 //обработчики открытия просмотра фотографии
 
 imageViewCloseButton.addEventListener('click', () => {closePopup(imageViewPopup)});
+
+//обработчик закрытия попапа по клику на темном фоне
+
+popupList.forEach((popup) => {
+  popup.addEventListener('click', () => {closePopapByPressOnOverlay(popup)});
+});

@@ -37,10 +37,12 @@
         <div class="popup__window">
             <button aria-label="Закрыть" class="close-button"></button>
             <h2 class="popup__title">Редактировать профиль</h2>
-            <form class="popup__form">
-                <input class="popup__input" type="text" name="user" placeholder="Имя">
-                <input class="popup__input" type="text" name="profession" placeholder="Профессия">
-                <button aria-label="Сохранить" class="save-button" type="submit">
+            <form class="popup__form" id="popup__form_add-profile" novalidate>
+                <input class="popup__input" id="name-input" placeholder="Имя" type="text" name="user" minlength="2" maxlength="40" required>
+                <span class="popup__input-error name-input-error"></span>
+                <input class="popup__input" id="profession-input" placeholder="Профессия" type="text" name="profession" minlength="2" maxlength="200" required>
+                <span class="popup__input-error profession-input-error"></span>
+                <button aria-label="Сохранить" class="save-button" id="submit-button" type="submit">
                     Сохранить
                 </button>
             </form>
@@ -51,9 +53,11 @@
         <div class="popup__window">
             <button aria-label="Close" class="close-button" id="close-button_add-photo"></button>
             <h2 class="popup__title">Новое место</h2>
-            <form class="popup__form" id="popup__form_add-photo">
-                <input class="popup__input" placeholder="Название" type="text" name="place">
-                <input class="popup__input" placeholder="Ссылка на картинку" type="text" name="image-url">
+            <form class="popup__form" id="popup__form_add-photo" novalidate>
+                <input class="popup__input" id="place-input" placeholder="Название" type="text" name="place" minlength="2" maxlength="30" required>
+                <span class="popup__input-error place-input-error"></span>
+                <input class="popup__input" id="url-input" placeholder="Ссылка на картинку" type="url" name="image-url">
+                <span class="popup__input-error url-input-error"></span>
                 <button aria-label="Create" class="create-button" type="submit">
                     Создать
                 </button>
@@ -84,5 +88,6 @@
 
     <script src="./scripts/cards.js"></script>
     <script src="./scripts/script.js"></script>
+    <script src="./scripts/validate.js"></script>
 </body>
 </html>
