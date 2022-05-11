@@ -40,7 +40,7 @@ const showInputError = (formElement, inputElement, errorMessage) => {
 
 const hideInputError = (formElement, inputElement) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('opup__input_type_error');
+  inputElement.classList.remove('popup__input_type_error');
   errorElement.textContent = '';
   errorElement.classList.remove('popup__input-error_active');
 };
@@ -48,8 +48,10 @@ const hideInputError = (formElement, inputElement) => {
 const toggleButtonState = (inputList, buttonElement) => {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add('inactive-button');
+    buttonElement.setAttribute('disabled', true);
   } else {
     buttonElement.classList.remove('inactive-button');
+    buttonElement.removeAttribute('disabled', true);
   };
 }
 
