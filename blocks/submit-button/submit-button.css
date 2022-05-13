@@ -1,4 +1,4 @@
-.create-button {
+.submit-button {
     display: block;
     background: black;
     color: white;
@@ -19,12 +19,12 @@
     transition: opacity 0.5s;
 }
 
-.create-button:hover {
+.submit-button:hover {
     opacity: 0.8;
 }
 
 @media (max-width: 768px) {
-    .create-button {
+    .submit-button {
         max-width: 238px;
         height: 46px;
         font-size: 14px;
