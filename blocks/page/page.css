@@ -7,7 +7,7 @@
     -moz-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
     width: 100%;
-    background-color: #000000;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;

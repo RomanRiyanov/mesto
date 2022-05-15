@@ -1,11 +1,10 @@
 //переменные и константы
 //окно редактирования имени профиля
 
-const popup = document.querySelector('.popup');
-const popupFormEditProfile = popup.querySelector('.popup__form');
-const closeButton = document.querySelector('.close-button');
+const popupEditProfile = document.querySelector('#popup_eidt-profile');
+const popupFormEditProfile = popupEditProfile.querySelector('.popup__form');
+const closeButton = document.querySelector('#close-button_eidt-profile');
 const editButton = document.querySelector('.edit-button');
-const saveButton = document.querySelector('.save-button');
 const addButton = document.querySelector('.add-button');
 
 const popupList = Array.from(document.querySelectorAll('.popup'));
@@ -44,12 +43,12 @@ const elementTemplate =
 
 function openPopup(popup) {
   popup.classList.add('popup_viewable');
-  document.addEventListener('keydown', () => {closePopapByPressEscape(popup)});
+  document.addEventListener('keydown', closePopapByPressEscape);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_viewable');
-  document.removeEventListener('keydown', () => {closePopapByPressEscape(popup)});
+  document.removeEventListener('keydown', closePopapByPressEscape);
 }
 
 function editProfile(event) {
@@ -58,7 +57,7 @@ function editProfile(event) {
     profileName.textContent = nameInput.value;
     profileInfo.textContent = jobInput.value;
 
-    closePopup(popup);
+    closePopup(popupEditProfile);
 }
 
 //функции добавления новой карточки с фотографией
@@ -134,9 +133,11 @@ function closePopapByPressOnOverlay (popup) {
 
 //функция закрытия по нажатию на Escape
 
-function closePopapByPressEscape (popup) {
+function closePopapByPressEscape () {
+  const openedPopup = document.querySelector('.popup_viewable');
+
   if (event.key === 'Escape') {
-    closePopup(popup);
+    closePopup(openedPopup);
   }
 }
 
@@ -144,12 +145,16 @@ function closePopapByPressEscape (popup) {
 //обработчики редактирования имени профиля
 
 editButton.addEventListener('click', () => {
-  openPopup(popup);
+  openPopup(popupEditProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileInfo.textContent;
+
+  const buttonElement = popupEditProfile.querySelector('.submit-button');
+  buttonElement.classList.add('inactive-button');
+  buttonElement.setAttribute('disabled', true);
 });
 
-closeButton.addEventListener('click', () => {closePopup(popup)});
+closeButton.addEventListener('click', () => {closePopup(popupEditProfile)});
 
 popupFormEditProfile.addEventListener('submit', editProfile);
 
@@ -158,6 +163,10 @@ popupFormEditProfile.addEventListener('submit', editProfile);
 addButton.addEventListener('click', () => {
   openPopup(addPhotoPopup);
   addPhotoPopupForm.reset();
+
+  const buttonElement = addPhotoPopup.querySelector('.submit-button');
+  buttonElement.classList.add('inactive-button');
+  buttonElement.setAttribute('disabled', true);
 });
 
 addPhotoCloseButton.addEventListener('click', () => {closePopup(addPhotoPopup)});

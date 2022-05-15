@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./pages/index.css">
     <title>Mesto</title>
 </head>
-<body>
+<body class="body">
     <div class="page">
         <section class="header">
             <img class="header__logo" src="./images/logo.svg" alt="Логотип Mesto">
@@ -33,9 +33,9 @@
         </main>
     </div>
 
-    <div class="popup">
+    <div class="popup" id="popup_eidt-profile">
         <div class="popup__window">
-            <button aria-label="Закрыть" class="close-button"></button>
+            <button aria-label="Закрыть" class="close-button" id="close-button_eidt-profile"></button>
             <h2 class="popup__title">Редактировать профиль</h2>
             <form class="popup__form" id="popup__form_add-profile" novalidate>
                 <input class="popup__input" id="name-input" placeholder="Имя" type="text" name="user" minlength="2" maxlength="40" required>
