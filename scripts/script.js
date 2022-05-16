@@ -2,8 +2,8 @@
 //окно редактирования имени профиля
 
 const popupEditProfile = document.querySelector('#popup_eidt-profile');
-const popupFormEditProfile = popupEditProfile.querySelector('.popup__form');
-const closeButton = document.querySelector('#close-button_eidt-profile');
+const popupFormEditProfile = popupEditProfile.querySelector('#popup__form_edit-profile');
+const popupEditProfileCloseButton = document.querySelector('#close-button_eidt-profile');
 const editButton = document.querySelector('.edit-button');
 const addButton = document.querySelector('.add-button');
 
@@ -70,6 +70,10 @@ function addPhotoOnPage(event) {
   closePopup(addPhotoPopup);
 }
 
+const addNewElementOnStart = (item) => {
+cardsContainer.prepend(createNewElement(item));
+};
+
 //функции генерации новой карточки
 
 const createNewElement = (item) => {
@@ -101,10 +105,6 @@ const deleteButtonHandler = function (event) {
 event.target.closest('.element').remove();
 }
 
-const addNewElementOnStart = (item) => {
-cardsContainer.prepend(createNewElement(item));
-};
-
 const addNewElement = (item) => {
   cardsContainer.append(createNewElement(item));
 };
@@ -134,9 +134,8 @@ function closePopapByPressOnOverlay (popup) {
 //функция закрытия по нажатию на Escape
 
 function closePopapByPressEscape () {
-  const openedPopup = document.querySelector('.popup_viewable');
-
   if (event.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_viewable');
     closePopup(openedPopup);
   }
 }
@@ -154,7 +153,7 @@ editButton.addEventListener('click', () => {
   buttonElement.setAttribute('disabled', true);
 });
 
-closeButton.addEventListener('click', () => {closePopup(popupEditProfile)});
+popupEditProfileCloseButton.addEventListener('click', () => {closePopup(popupEditProfile)});
 
 popupFormEditProfile.addEventListener('submit', editProfile);
 
@@ -173,7 +172,7 @@ addPhotoCloseButton.addEventListener('click', () => {closePopup(addPhotoPopup)})
 
 addPhotoPopupForm.addEventListener('submit', addPhotoOnPage);
 
-//обработчики открытия просмотра фотографии
+//обработчики закрытия просмотра фотографии
 
 imageViewCloseButton.addEventListener('click', () => {closePopup(imageViewPopup)});
 
