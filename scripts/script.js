@@ -22,21 +22,8 @@ const imageViewCloseButton = document.querySelector('#close-button_view-photo');
 const viewImage = document.querySelector('.popup__view-image');
 const figcaption = document.querySelector('.popup__figcaption');
 
-//окно добавления новой карточки с фотографией
 
-const addPhotoPopup = document.querySelector('#popup_add-photo');
-const addPhotoPopupForm = document.querySelector('#popup__form_add-photo');
-const addPhotoCloseButton = document.querySelector('#close-button_add-photo');
 
-const placeInput = addPhotoPopupForm.querySelector('.popup__input[name=place]');
-const urlInput = addPhotoPopupForm.querySelector('.popup__input[name=image-url]');
-
-//элементы новой карточки
-
-const cardsContainer = document.querySelector('.elements'); 
-const elementTemplate = 
-    document.querySelector('#element').
-    content.querySelector('.element');
 
 //функции
 //функции редактирования имени профиля
@@ -60,58 +47,7 @@ function editProfile(event) {
     closePopup(popupEditProfile);
 }
 
-//функции добавления новой карточки с фотографией
 
-function addPhotoOnPage(event) {
-  event.preventDefault();
-
-  addNewElementOnStart({name: placeInput.value, link: urlInput.value});
-
-  closePopup(addPhotoPopup);
-}
-
-const addNewElementOnStart = (item) => {
-cardsContainer.prepend(createNewElement(item));
-};
-
-//функции генерации новой карточки
-
-const createNewElement = (item) => {
-  const element = elementTemplate.cloneNode(true);
-
-  const elementPhoto = element.querySelector('.element__photo');
-  elementPhoto.src = item.link;
-  elementPhoto.addEventListener('click', openImageView);
-
-  const elementTitle = element.querySelector('.element__title');
-  elementTitle.textContent = item.name;
-
-  elementPhoto.alt = elementTitle.textContent;
-
-  const likeButton = element.querySelector('.like-button');
-  likeButton.addEventListener('click', likeButtonHandler);
-
-  const deleteButton = element.querySelector('.delete-button');
-  deleteButton.addEventListener('click', deleteButtonHandler);
-
-  return element;
-}
-
-const likeButtonHandler = function (event) {
-event.target.classList.toggle('like-button_active');
-}
-
-const deleteButtonHandler = function (event) {
-event.target.closest('.element').remove();
-}
-
-const addNewElement = (item) => {
-  cardsContainer.append(createNewElement(item));
-};
-
-initialCards.forEach((item) => {
-  addNewElement(item);
-});
 
 //функции открытия просмотра фотографии
 
@@ -157,20 +93,9 @@ popupEditProfileCloseButton.addEventListener('click', () => {closePopup(popupEdi
 
 popupFormEditProfile.addEventListener('submit', editProfile);
 
-//обработчики добавления новой карточки с фотографией
 
-addButton.addEventListener('click', () => {
-  openPopup(addPhotoPopup);
-  addPhotoPopupForm.reset();
 
-  const buttonElement = addPhotoPopup.querySelector('.submit-button');
-  buttonElement.classList.add('inactive-button');
-  buttonElement.setAttribute('disabled', true);
-});
 
-addPhotoCloseButton.addEventListener('click', () => {closePopup(addPhotoPopup)});
-
-addPhotoPopupForm.addEventListener('submit', addPhotoOnPage);
 
 //обработчики закрытия просмотра фотографии
 
