@@ -1,3 +1,52 @@
+import {FormValidator} from './validate.js';
+import {Card} from './card.js';
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.submit-button',
+  inactiveButtonClass: 'inactive-button',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
+};
+
+const wrumwrum = new FormValidator (validationConfig, 'popup__form_edit-profile');
+const hrumhrum = new FormValidator (validationConfig, 'popup__form_add-photo');
+
+const example = new Card (initialCards, 'element');
+
+wrumwrum.enableValidation();
+hrumhrum.enableValidation();
+
+example.render();
+
 //переменные и константы
 //окно редактирования имени профиля
 
@@ -22,9 +71,6 @@ const imageViewCloseButton = document.querySelector('#close-button_view-photo');
 const viewImage = document.querySelector('.popup__view-image');
 const figcaption = document.querySelector('.popup__figcaption');
 
-
-
-
 //функции
 //функции редактирования имени профиля
 
@@ -46,8 +92,6 @@ function editProfile(event) {
 
     closePopup(popupEditProfile);
 }
-
-
 
 //функции открытия просмотра фотографии
 
@@ -92,10 +136,6 @@ editButton.addEventListener('click', () => {
 popupEditProfileCloseButton.addEventListener('click', () => {closePopup(popupEditProfile)});
 
 popupFormEditProfile.addEventListener('submit', editProfile);
-
-
-
-
 
 //обработчики закрытия просмотра фотографии
 

@@ -1,4 +1,4 @@
-class Card {
+export class Card {
 
     constructor (data, templateSelector) {
         this.data = data;
@@ -44,7 +44,7 @@ class Card {
     
         const elementPhoto = element.querySelector('.element__photo');
         elementPhoto.src = item.link;
-        elementPhoto.addEventListener('click', openImageView);
+        elementPhoto.addEventListener('click', this.openImageView);
     
         const elementTitle = element.querySelector('.element__title');
         elementTitle.textContent = item.name;
@@ -77,8 +77,8 @@ class Card {
     //обработчики добавления новой карточки с фотографией
 
     render() {
-        addButton.addEventListener('click', () => {
-            openPopup(this.addPhotoPopup);
+        this.addButton.addEventListener('click', () => {
+            this.openPopup(this.addPhotoPopup);
             this.addPhotoPopupForm.reset();
         
             const buttonElement = this.addPhotoPopup.querySelector('.submit-button');
@@ -95,7 +95,8 @@ class Card {
         });
         }
 }
-
+/*
 const example = new Card (initialCards, 'element');
 
 example.render();
+*/
