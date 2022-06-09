@@ -1,3 +1,4 @@
+export {openPopup, closePopup, openImageView};
 import {FormValidator} from './validate.js';
 import {Card} from './card.js';
 
@@ -36,16 +37,6 @@ const validationConfig = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_active'
 };
-
-const wrumwrum = new FormValidator (validationConfig, 'popup__form_edit-profile');
-const hrumhrum = new FormValidator (validationConfig, 'popup__form_add-photo');
-
-const example = new Card (initialCards, 'element');
-
-wrumwrum.enableValidation();
-hrumhrum.enableValidation();
-
-example.render();
 
 //переменные и константы
 //окно редактирования имени профиля
@@ -146,3 +137,15 @@ imageViewCloseButton.addEventListener('click', () => {closePopup(imageViewPopup)
 popupList.forEach((popup) => {
   popup.addEventListener('click', () => {closePopapByPressOnOverlay(popup)});
 });
+
+//рендер всей страницы
+
+const viewedEditProfileWindow = new FormValidator (validationConfig, 'popup__form_edit-profile');
+const viewedAddPhotoWindow = new FormValidator (validationConfig, 'popup__form_add-photo');
+
+const page = new Card (initialCards, 'element');
+
+viewedEditProfileWindow.enableValidation();
+viewedAddPhotoWindow.enableValidation();
+
+page.render();

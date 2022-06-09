@@ -1,3 +1,4 @@
+import {openPopup, closePopup, openImageView} from './index.js'
 export class Card {
 
     constructor (data, templateSelector) {
@@ -44,7 +45,7 @@ export class Card {
     
         const elementPhoto = element.querySelector('.element__photo');
         elementPhoto.src = item.link;
-        elementPhoto.addEventListener('click', this.openImageView);
+        elementPhoto.addEventListener('click', openImageView);
     
         const elementTitle = element.querySelector('.element__title');
         elementTitle.textContent = item.name;
@@ -78,7 +79,7 @@ export class Card {
 
     render() {
         this.addButton.addEventListener('click', () => {
-            this.openPopup(this.addPhotoPopup);
+            openPopup(this.addPhotoPopup);
             this.addPhotoPopupForm.reset();
         
             const buttonElement = this.addPhotoPopup.querySelector('.submit-button');
