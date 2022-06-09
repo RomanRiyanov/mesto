@@ -2,6 +2,8 @@ export {openPopup, closePopup, openImageView};
 import {FormValidator} from './validate.js';
 import {Card} from './card.js';
 
+//внешние данные
+
 const initialCards = [
   {
     name: 'Архыз',

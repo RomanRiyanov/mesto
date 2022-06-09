@@ -96,8 +96,3 @@ export class Card {
         });
         }
 }
-/*
-const example = new Card (initialCards, 'element');
-
-example.render();
-*/

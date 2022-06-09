@@ -14,7 +14,6 @@ export class FormValidator {
 
         this._setEventListeners();
     };
-    
 
    _setEventListeners () {
 
@@ -28,7 +27,6 @@ export class FormValidator {
       });
     });
   };
-
 
    _checkInputValidity = (inputElement) => {
     if (!inputElement.validity.valid) {
@@ -67,22 +65,4 @@ export class FormValidator {
       return !inputElement.validity.valid;
     });
   }
-
 }
-/*
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.submit-button',
-  inactiveButtonClass: 'inactive-button',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active'
-};
-
-const wrumwrum = new FormValidator (validationConfig, 'popup__form_edit-profile');
-const hrumhrum = new FormValidator (validationConfig, 'popup__form_add-photo');
-
-wrumwrum.enableValidation();
-hrumhrum.enableValidation();
-
-*/
