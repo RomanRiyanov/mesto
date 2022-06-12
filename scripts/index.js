@@ -1,44 +1,16 @@
-export {openPopup, closePopup, openImageView};
-import {FormValidator} from './validate.js';
-import {Card} from './card.js';
-
-//внешние данные
-
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.submit-button',
-  inactiveButtonClass: 'inactive-button',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active'
-};
+export {openImageView};
+import {FormValidator} from './FormValidator.js';
+import {Card} from './Card.js';
+import {
+  initialCards,
+  validationConfig,
+  popupAddPhoto,
+  popupAddPhotoForm,
+  photoAddCloseButton,
+  cardsContainer,
+  placeInput,
+  urlInput
+} from './utils/constants.js';
 
 //переменные и константы
 //окно редактирования имени профиля
@@ -46,8 +18,8 @@ const validationConfig = {
 const popupEditProfile = document.querySelector('#popup_eidt-profile');
 const popupFormEditProfile = popupEditProfile.querySelector('#popup__form_edit-profile');
 const popupEditProfileCloseButton = document.querySelector('#close-button_eidt-profile');
-const editButton = document.querySelector('.edit-button');
-const addButton = document.querySelector('.add-button');
+const buttonEditProfile = document.querySelector('.edit-button');
+const buttonAddPhoto = document.querySelector('.add-button');
 
 const popupList = Array.from(document.querySelectorAll('.popup'));
 
@@ -61,7 +33,7 @@ const jobInput = popupFormEditProfile.querySelector('.popup__input[name=professi
 
 const imageViewPopup = document.querySelector('#popup_view-photo');
 const imageViewCloseButton = document.querySelector('#close-button_view-photo');
-const viewImage = document.querySelector('.popup__view-image');
+const imageViewWindow = document.querySelector('.popup__view-image');
 const figcaption = document.querySelector('.popup__figcaption');
 
 //функции
@@ -88,12 +60,28 @@ function editProfile(event) {
 
 //функции открытия просмотра фотографии
 
-function openImageView(event) {
-  viewImage.src = event.target.src;
-  viewImage.alt = event.target.alt;
+function openImageView() {
+  imageViewWindow.src = event.target.src;
+  imageViewWindow.alt = event.target.alt;
   figcaption.textContent = event.target.alt;
   
   openPopup(imageViewPopup);
+}
+
+//функция добавления новой фотографии
+
+function addPhotoOnPage(event) {
+  event.preventDefault();
+
+  const item = {
+    name: placeInput.value,
+    link: urlInput.value
+  }
+  const card = new Card (item, 'element');
+
+  cardsContainer.prepend(card.createNewElement(item));
+
+  closePopup(popupAddPhoto);
 }
 
 //функция закрытия по клику на темном фоне
@@ -116,14 +104,10 @@ function closePopapByPressEscape () {
 //обработчики событий
 //обработчики редактирования имени профиля
 
-editButton.addEventListener('click', () => {
+buttonEditProfile.addEventListener('click', () => {
   openPopup(popupEditProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileInfo.textContent;
-
-  const buttonElement = popupEditProfile.querySelector('.submit-button');
-  buttonElement.classList.add('inactive-button');
-  buttonElement.setAttribute('disabled', true);
 });
 
 popupEditProfileCloseButton.addEventListener('click', () => {closePopup(popupEditProfile)});
@@ -140,14 +124,30 @@ popupList.forEach((popup) => {
   popup.addEventListener('click', () => {closePopapByPressOnOverlay(popup)});
 });
 
+//обработчики добавления новой фотографии
+
+buttonAddPhoto.addEventListener('click', () => {
+  openPopup(popupAddPhoto);
+  popupAddPhotoForm.reset();
+
+  const buttonElement = popupAddPhoto.querySelector('.submit-button');
+  buttonElement.classList.add('inactive-button');
+  buttonElement.setAttribute('disabled', true);
+});
+
+popupAddPhotoForm.addEventListener('submit', () => {addPhotoOnPage(event)});
+
+photoAddCloseButton.addEventListener('click', () => {closePopup(popupAddPhoto)});
+
 //рендер всей страницы
 
-const viewedEditProfileWindow = new FormValidator (validationConfig, 'popup__form_edit-profile');
-const viewedAddPhotoWindow = new FormValidator (validationConfig, 'popup__form_add-photo');
-
-const page = new Card (initialCards, 'element');
+const viewedEditProfileWindow = new FormValidator (validationConfig, popupFormEditProfile);
+const viewedAddPhotoWindow = new FormValidator (validationConfig, popupAddPhotoForm);
 
 viewedEditProfileWindow.enableValidation();
 viewedAddPhotoWindow.enableValidation();
 
-page.render();
+initialCards.forEach((item) => {
+  const page = new Card (item, 'element');
+  cardsContainer.prepend(page.createNewElement());
+});

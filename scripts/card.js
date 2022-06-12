@@ -1,68 +1,30 @@
-import {openPopup, closePopup, openImageView} from './index.js'
+import {openImageView} from './index.js';
+
 export class Card {
-
     constructor (data, templateSelector) {
-        this.data = data;
-        this.templateSelector = templateSelector;
-
-        //окно добавления новой карточки с фотографией
-
-        this.addPhotoPopup = document.querySelector('#popup_add-photo');
-        this.addPhotoPopupForm = document.querySelector('#popup__form_add-photo');
-        this.addPhotoCloseButton = document.querySelector('#close-button_add-photo');
-
-        this.placeInput = this.addPhotoPopupForm.querySelector('.popup__input[name=place]');
-        this.urlInput = this.addPhotoPopupForm.querySelector('.popup__input[name=image-url]');
-
-        //элементы новой карточки
-
-        this.cardsContainer = document.querySelector('.elements'); 
-        this.elementTemplate = 
-            document.querySelector(`#${this.templateSelector}`).
-            content.querySelector(`.${this.templateSelector}`);
-        
-        this.addButton = document.querySelector('.add-button');
+        this._data = data;
+        this._templateSelector = templateSelector;
     }
 
-    //функции добавления новой карточки с фотографией
+    _getTemplate() {
+        const element = 
+        document.querySelector(`#${this._templateSelector}`).
+        content.querySelector(`.${this._templateSelector}`).
+        cloneNode(true);
 
-    _addPhotoOnPage(event) {
-        event.preventDefault();
-    
-        this.__addNewElementOnStart({name: this.placeInput.value, link: this.urlInput.value});
-    
-        closePopup(this.addPhotoPopup);
-    }
-    
-    __addNewElementOnStart = (item) => {
-    this.cardsContainer.prepend(this._createNewElement(item));
-    };
-    
-    //функции генерации новой карточки
-    
-    _createNewElement = (item) => {
-        const element = this.elementTemplate.cloneNode(true);
-    
-        const elementPhoto = element.querySelector('.element__photo');
-        elementPhoto.src = item.link;
-        elementPhoto.addEventListener('click', openImageView);
-    
-        const elementTitle = element.querySelector('.element__title');
-        elementTitle.textContent = item.name;
-    
-        elementPhoto.alt = elementTitle.textContent;
-    
-        const likeButton = element.querySelector('.like-button');
-        likeButton.addEventListener('click', this._likeButtonHandler);
-    
-        const deleteButton = element.querySelector('.delete-button');
-        deleteButton.addEventListener('click', () => {
-            this._deleteButtonHandler(event, this.templateSelector);
-        });
-    
         return element;
     }
-    
+
+    _setEventListeners() {
+        this._element.querySelector('.element__photo').addEventListener('click', openImageView);
+
+        this._element.querySelector('.like-button').addEventListener('click', this._likeButtonHandler);
+
+        this._element.querySelector('.delete-button').addEventListener('click', () => {
+            this._deleteButtonHandler(event, this._templateSelector);
+        });
+    }
+
     _likeButtonHandler = function (event) {
     event.target.classList.toggle('like-button_active');
     }
@@ -71,28 +33,18 @@ export class Card {
         event.target.closest(`.${templateSelector}`).remove();
     }
     
-    _addNewElement = (item) => {
-        this.cardsContainer.append(this._createNewElement(item));
-    };
-    
-    //обработчики добавления новой карточки с фотографией
+    createNewElement = () => {
+        this._element = this._getTemplate();
+        this._setEventListeners();
 
-    render() {
-        this.addButton.addEventListener('click', () => {
-            openPopup(this.addPhotoPopup);
-            this.addPhotoPopupForm.reset();
-        
-            const buttonElement = this.addPhotoPopup.querySelector('.submit-button');
-            buttonElement.classList.add('inactive-button');
-            buttonElement.setAttribute('disabled', true);
-        });
-        
-        this.addPhotoCloseButton.addEventListener('click', () => {closePopup(this.addPhotoPopup)});
-        
-        this.addPhotoPopupForm.addEventListener('submit', () => {this._addPhotoOnPage(event)});
-        
-        this.data.forEach((item) => {
-            this._addNewElement(item);
-        });
-        }
+        const elementPhoto = this._element.querySelector('.element__photo');
+        elementPhoto.src = this._data.link;
+    
+        const elementTitle = this._element.querySelector('.element__title');
+        elementTitle.textContent = this._data.name;
+    
+        elementPhoto.alt = elementTitle.textContent;
+    
+        return this._element;
+    }
 }

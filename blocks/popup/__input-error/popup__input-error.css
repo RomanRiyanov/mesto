@@ -1,4 +1,6 @@
 .popup__input-error {
+    position: absolute;
+    top: 35px;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -9,11 +11,7 @@
     display: none;
     width: 100%;
     max-width: 358px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
 }
-
 
 @media (max-width: 768px) {
     .popup__input-error {
