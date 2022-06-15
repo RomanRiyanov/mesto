@@ -8,20 +8,20 @@ export class Card {
 
     _getTemplate() {
         const element = 
-        document.querySelector(`#${this._templateSelector}`).
-        content.querySelector(`.${this._templateSelector}`).
+        document.querySelector(`${this._templateSelector}`).
+        content.querySelector('.element').
         cloneNode(true);
 
         return element;
     }
 
     _setEventListeners() {
-        this._element.querySelector('.element__photo').addEventListener('click', openImageView);
+        this._elementPhoto.addEventListener('click', openImageView); 
 
         this._element.querySelector('.like-button').addEventListener('click', this._likeButtonHandler);
 
         this._element.querySelector('.delete-button').addEventListener('click', () => {
-            this._deleteButtonHandler(event, this._templateSelector);
+            this._deleteButtonHandler();
         });
     }
 
@@ -29,22 +29,23 @@ export class Card {
     event.target.classList.toggle('like-button_active');
     }
     
-    _deleteButtonHandler = function (event, templateSelector) {
-        event.target.closest(`.${templateSelector}`).remove();
+    _deleteButtonHandler = function () {
+        this._element.remove();
+        this._element = null;
     }
     
     createNewElement = () => {
         this._element = this._getTemplate();
+        
+        this._elementPhoto = this._element.querySelector('.element__photo');
+        this._elementPhoto.src = this._data.link;
+        
+        this._elementTitle = this._element.querySelector('.element__title');
+        this._elementTitle.textContent = this._data.name;
+    
+        this._elementPhoto.alt = this._elementTitle.textContent;
+   
         this._setEventListeners();
-
-        const elementPhoto = this._element.querySelector('.element__photo');
-        elementPhoto.src = this._data.link;
-    
-        const elementTitle = this._element.querySelector('.element__title');
-        elementTitle.textContent = this._data.name;
-    
-        elementPhoto.alt = elementTitle.textContent;
-    
         return this._element;
     }
 }

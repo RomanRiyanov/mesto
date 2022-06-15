@@ -68,6 +68,13 @@ function openImageView() {
   openPopup(imageViewPopup);
 }
 
+//функция создания новой карточки
+
+function createCard (item) {
+  const card = new Card (item, '#element');
+  return card.createNewElement();
+}
+
 //функция добавления новой фотографии
 
 function addPhotoOnPage(event) {
@@ -77,9 +84,8 @@ function addPhotoOnPage(event) {
     name: placeInput.value,
     link: urlInput.value
   }
-  const card = new Card (item, 'element');
 
-  cardsContainer.prepend(card.createNewElement(item));
+  cardsContainer.prepend( createCard(item) );
 
   closePopup(popupAddPhoto);
 }
@@ -129,10 +135,6 @@ popupList.forEach((popup) => {
 buttonAddPhoto.addEventListener('click', () => {
   openPopup(popupAddPhoto);
   popupAddPhotoForm.reset();
-
-  const buttonElement = popupAddPhoto.querySelector('.submit-button');
-  buttonElement.classList.add('inactive-button');
-  buttonElement.setAttribute('disabled', true);
 });
 
 popupAddPhotoForm.addEventListener('submit', () => {addPhotoOnPage(event)});
@@ -148,6 +150,5 @@ viewedEditProfileWindow.enableValidation();
 viewedAddPhotoWindow.enableValidation();
 
 initialCards.forEach((item) => {
-  const page = new Card (item, 'element');
-  cardsContainer.prepend(page.createNewElement());
+  cardsContainer.prepend( createCard(item) );
 });
