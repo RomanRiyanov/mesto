@@ -135,6 +135,8 @@ popupList.forEach((popup) => {
 buttonAddPhoto.addEventListener('click', () => {
   openPopup(popupAddPhoto);
   popupAddPhotoForm.reset();
+
+  viewedAddPhotoWindow.toggleButtonState();
 });
 
 popupAddPhotoForm.addEventListener('submit', () => {addPhotoOnPage(event)});
@@ -145,6 +147,8 @@ photoAddCloseButton.addEventListener('click', () => {closePopup(popupAddPhoto)})
 
 const viewedEditProfileWindow = new FormValidator (validationConfig, popupFormEditProfile);
 const viewedAddPhotoWindow = new FormValidator (validationConfig, popupAddPhotoForm);
+viewedEditProfileWindow.toggleButtonState();
+viewedAddPhotoWindow.toggleButtonState();
 
 viewedEditProfileWindow.enableValidation();
 viewedAddPhotoWindow.enableValidation();
