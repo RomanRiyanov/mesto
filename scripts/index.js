@@ -1,53 +1,40 @@
 export {openImageView};
 import {FormValidator} from './FormValidator.js';
-import {Card} from './Card.js';
+//import {Card} from './Card.js';
+import {Section} from './Section.js';
+
 import {
   initialCards,
   validationConfig,
   popupAddPhoto,
   popupAddPhotoForm,
   photoAddCloseButton,
-  cardsContainer,
   placeInput,
-  urlInput
+  urlInput,
+  popupEditProfile,
+  popupFormEditProfile,
+  popupEditProfileCloseButton,
+  buttonEditProfile,
+  buttonAddPhoto,
+  popupList,
+  profileName,
+  profileInfo,
+  nameInput,
+  jobInput,
+  imageViewPopup,
+  imageViewCloseButton,
+  imageViewWindow,
+  figcaption
 } from './utils/constants.js';
 
-//переменные и константы
-//окно редактирования имени профиля
-
-const popupEditProfile = document.querySelector('#popup_eidt-profile');
-const popupFormEditProfile = popupEditProfile.querySelector('#popup__form_edit-profile');
-const popupEditProfileCloseButton = document.querySelector('#close-button_eidt-profile');
-const buttonEditProfile = document.querySelector('.edit-button');
-const buttonAddPhoto = document.querySelector('.add-button');
-
-const popupList = Array.from(document.querySelectorAll('.popup'));
-
-const profileName = document.querySelector('.profile__title');
-const profileInfo = document.querySelector('.profile__subtitle');
-
-const nameInput = popupFormEditProfile.querySelector('.popup__input[name=user]');
-const jobInput = popupFormEditProfile.querySelector('.popup__input[name=profession]');
-
-//окно открытия просмотра фотографии
-
-const imageViewPopup = document.querySelector('#popup_view-photo');
-const imageViewCloseButton = document.querySelector('#close-button_view-photo');
-const imageViewWindow = document.querySelector('.popup__view-image');
-const figcaption = document.querySelector('.popup__figcaption');
+import {
+  createCard,
+  closePopup,
+  openPopup,
+  closePopapByPressOnOverlay,
+} from './utils/utils.js';
 
 //функции
-//функции редактирования имени профиля
-
-function openPopup(popup) {
-  popup.classList.add('popup_viewable');
-  document.addEventListener('keydown', closePopapByPressEscape);
-}
-
-function closePopup(popup) {
-  popup.classList.remove('popup_viewable');
-  document.removeEventListener('keydown', closePopapByPressEscape);
-}
 
 function editProfile(event) {
     event.preventDefault();
@@ -66,45 +53,6 @@ function openImageView() {
   figcaption.textContent = event.target.alt;
   
   openPopup(imageViewPopup);
-}
-
-//функция создания новой карточки
-
-function createCard (item) {
-  const card = new Card (item, '#element');
-  return card.createNewElement();
-}
-
-//функция добавления новой фотографии
-
-function addPhotoOnPage(event) {
-  event.preventDefault();
-
-  const item = {
-    name: placeInput.value,
-    link: urlInput.value
-  }
-
-  cardsContainer.prepend( createCard(item) );
-
-  closePopup(popupAddPhoto);
-}
-
-//функция закрытия по клику на темном фоне
-
-function closePopapByPressOnOverlay (popup) {
-  if (event.target === event.currentTarget) {
-    closePopup(popup);
-  }
-}
-
-//функция закрытия по нажатию на Escape
-
-function closePopapByPressEscape () {
-  if (event.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_viewable');
-    closePopup(openedPopup);
-  }
 }
 
 //обработчики событий
@@ -139,7 +87,20 @@ buttonAddPhoto.addEventListener('click', () => {
   viewedAddPhotoWindow.toggleButtonState();
 });
 
-popupAddPhotoForm.addEventListener('submit', () => {addPhotoOnPage(event)});
+popupAddPhotoForm.addEventListener('submit', () => {
+  const popupAddPhotoFormValue = {
+    name: placeInput.value,
+    link: urlInput.value
+  }
+
+  const aloneCardData = {
+    items: popupAddPhotoFormValue, 
+    renderer: createCard
+  }
+
+  const aloneCardRender = new Section (aloneCardData, '.elements');
+  aloneCardRender.addItem();
+});
 
 photoAddCloseButton.addEventListener('click', () => {closePopup(popupAddPhoto)});
 
@@ -153,6 +114,9 @@ viewedAddPhotoWindow.toggleButtonState();
 viewedEditProfileWindow.enableValidation();
 viewedAddPhotoWindow.enableValidation();
 
-initialCards.forEach((item) => {
-  cardsContainer.prepend( createCard(item) );
-});
+const cardData = {
+  items: initialCards, 
+  renderer: createCard
+};
+const section = new Section (cardData, '.elements');
+section.renderAllPage();
