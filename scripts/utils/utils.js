@@ -1,5 +1,4 @@
 import {Card} from '../Card.js';
-import {placeInput, urlInput} from './constants.js';
 
 //функция создания новой карточки
 

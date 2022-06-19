@@ -47,9 +47,9 @@ export const initialCards = [
 
    //окно редактирования имени профиля
 
-   export const popupEditProfile = document.querySelector('#popup_eidt-profile');
+   export const popupEditProfile = document.querySelector('#popup_edit-profile');
    export const popupFormEditProfile = popupEditProfile.querySelector('#popup__form_edit-profile');
-   export const popupEditProfileCloseButton = document.querySelector('#close-button_eidt-profile');
+   export const popupEditProfileCloseButton = document.querySelector('#close-button_edit-profile');
    export const buttonEditProfile = document.querySelector('.edit-button');
    export const buttonAddPhoto = document.querySelector('.add-button');
   
