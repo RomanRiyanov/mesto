@@ -1,4 +1,4 @@
-import {openImageView} from './index.js';
+import {imageViewPopupElement} from './index.js';
 
 export class Card {
     constructor (data, templateSelector) {
@@ -16,7 +16,10 @@ export class Card {
     }
 
     _setEventListeners() {
-        this._elementPhoto.addEventListener('click', openImageView); 
+        //this._elementPhoto.addEventListener('click', openImageView); 
+        this._elementPhoto.addEventListener('click', () => {
+            imageViewPopupElement.open();
+        }); 
 
         this._element.querySelector('.like-button').addEventListener('click', this._likeButtonHandler);
 

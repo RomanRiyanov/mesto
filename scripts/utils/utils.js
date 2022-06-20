@@ -1,5 +1,13 @@
 import {Card} from '../Card.js';
+import {Section} from '../Section.js';
 
+import {
+  profileName,
+  profileInfo,
+  nameInput,
+  jobInput
+} from './constants.js';
+import {popupEditProfileElement} from '../index.js';
 //функция создания новой карточки
 
 export function createCard (item) {
@@ -7,33 +15,26 @@ export function createCard (item) {
     return card.createNewElement();
   }
 
-//функции открытия и закрытия попапа
+//функция редактирования профиля
 
-export function openPopup(popup) {
-    popup.classList.add('popup_viewable');
-    document.addEventListener('keydown', closePopapByPressEscape);
-  }
-  
-  export function closePopup(popup) {
-    popup.classList.remove('popup_viewable');
-    document.removeEventListener('keydown', closePopapByPressEscape);
+export function editProfile(event) {
+    event.preventDefault();
+
+    profileName.textContent = nameInput.value;
+    profileInfo.textContent = jobInput.value;
+
+    //closePopup(popupEditProfile);
+    popupEditProfileElement.close();
+}
+
+//функция обработчик отправки формы добавления фото
+
+export function submitFormHandler(data) {
+  const aloneCardData = {
+    items: data, 
+    renderer: createCard
   }
 
-//функция закрытия по клику на темном фоне
-
-export function closePopapByPressOnOverlay (popup) {
-    if (event.target === event.currentTarget) {
-      closePopup(popup);
-    }
-  }
-  
-  //функция закрытия по нажатию на Escape
-  
- export  function closePopapByPressEscape () {
-    if (event.key === 'Escape') {
-      const openedPopup = document.querySelector('.popup_viewable');
-      closePopup(openedPopup);
-    }
-  }
-  
-  
+  const aloneCardRender = new Section (aloneCardData, '.elements');
+  aloneCardRender.addItem();
+}

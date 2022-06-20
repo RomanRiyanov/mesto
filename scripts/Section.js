@@ -1,5 +1,7 @@
-import {closePopup} from './utils/utils.js';
+//import {closePopup} from './utils/utils.js';
 import {popupAddPhoto}  from './utils/constants.js';
+import {/*popupAddPhotoElement*/popupWithForm}  from './index.js';
+
 
 export class Section {
     constructor (data, containerSelector) {
@@ -15,8 +17,10 @@ export class Section {
     }
 
     addItem () {
-        event.preventDefault();
+        //event.preventDefault();
         this._cardsContainer.prepend( this._renderer(this._items) );
-        closePopup(popupAddPhoto);
+        //closePopup(popupAddPhoto);
+        //popupAddPhotoElement.close();
+        popupWithForm.close();
     }
 }
