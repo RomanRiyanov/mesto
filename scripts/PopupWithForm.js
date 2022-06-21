@@ -1,5 +1,5 @@
 import { Popup } from "./Popup.js";
-import {submitFormHandler} from './utils/utils.js';
+//import {submitFormHandler} from './utils/utils.js';
 import {
     initialCards,
     validationConfig,
@@ -16,138 +16,98 @@ import {
   } from './utils/constants.js';
 
 export class PopupWithForm extends Popup {
-    constructor(popupSelector, submitFormHandler) {
+    constructor({popupSelector, submitFormHandler}) {
         super(popupSelector);
         this._popup = document.querySelector(popupSelector);
+        this._form = this._popup.querySelector('.popup__form');
         this._submitFormHandler = submitFormHandler;
     }
 
     _getInputValues() {
-        const popupAddPhotoFormValue = {
-            name: placeInput.value,
-            link: urlInput.value
-        };
+        // this._popupAddPhotoFormValue = {
+        //     name: placeInput.value,
+        //     link: urlInput.value
+        // };
 
-        return popupAddPhotoFormValue;
+        // return this._popupAddPhotoFormValue;
+
+        return 
     }
 
-    
+    _getInputValues() { 
+      this._values = {};
+      this._form.querySelectorAll('input').forEach((input) => {
+      this._values[input.name] = input.value
+    })
+      return this._values;
+    }
+
+    _setStartValue(startValue) {
+      // nameInput.value = startValue.user;
+      // jobInput.value = startValue.profession;
+      Object.keys(startValue).forEach(key => {
+        this._form.querySelector(`input[name="${key}"]`).value = startValue[key];
+      })
+    }
+
+    open(startValue) {
+      this._setStartValue(startValue);
+      super.open();
+    }
 
     setEventListeners() {
-        
-        buttonAddPhoto.addEventListener('click', () => {
-            super.open();
-            popupAddPhotoForm.reset();
-          
-            super.setEventSisteners();
-          });
+          // buttonEditProfile.addEventListener('click', () => {
+          //   this._setStartValue()
+          //   this.open();
+          // })
 
-          this._popup.addEventListener('submit', () => {
+          super.setEventSisteners.call(this);
+
+          this._form.addEventListener('submit', () => {
             event.preventDefault();
             this._submitFormHandler( this._getInputValues() );
-            this._popup.querySelector('.submit-button').classList.add('inactive-button');
+            this.setEventSisteners();
+            this.close();
           });
     }
 
     close() {
         super.close();
+        //this._popup.querySelector('.submit-button').classList.add('inactive-button');
 
-        popupAddPhotoForm.reset();
+        this._form.reset();
     }
 }
 
 
 /*
+
 class PopupWithForm extends Popup {
-    constructor(popupSelector, handleSubmit) {
-      super(popupSelector);
-      this._handleSubmit = handleSubmit;
-      this._form = this._popupSelector.querySelector('.popup__container');
-      this._inputs = this._form.querySelectorAll('.popup__item')
-    }
-  
-    _getInputValues() { 
-      this._values = {};
-      this._inputs.forEach((input) => {
-      this._values[input.name] = input.value
-    })
-      return this._values;
-    }
-  
-    setEventListeners() {
-      this._form.addEventListener('submit', () => {
-        this._handleSubmit()
-      })
-      super.setEventListeners();
-    }
-  
-    close() {
-      super.close();
-      this._form.reset();
-    }
+  constructor(popupSelector, handleSubmit) {
+    super(popupSelector);
+    this._handleSubmit = handleSubmit;
+    this._form = this._popupSelector.querySelector('.popup__container');
+    this._inputs = this._form.querySelectorAll('.popup__item')
   }
-*/
 
-/*
-//обработчики добавления новой фотографии
-  
-export const placeInput = document.querySelector('.popup__input[name=place]');
-export const urlInput = document.querySelector('.popup__input[name=image-url]');
+  _getInputValues() { 
+    this._values = {};
+    this._inputs.forEach((input) => {
+    this._values[input.name] = input.value
+  })
+    return this._values;
+  }
 
-buttonAddPhoto.addEventListener('click', () => {
-    popupAddPhotoElement.open();
-  
-    popupAddPhotoForm.reset();
-  
-    viewedAddPhotoWindow.toggleButtonState();
-  });
-  
-  popupAddPhotoForm.addEventListener('submit', () => {
-    const popupAddPhotoFormValue = {
-      name: placeInput.value,
-      link: urlInput.value
-    }
-  
-    const aloneCardData = {
-      items: popupAddPhotoFormValue, 
-      renderer: createCard
-    }
-  
-    const aloneCardRender = new Section (aloneCardData, '.elements');
-    aloneCardRender.addItem();
-  });
+  setEventListeners() {
+    this._form.addEventListener('submit', () => {
+      this._handleSubmit()
+    })
+    super.setEventListeners();
+  }
 
-  
-
-
-
-
-
-
-
-buttonEditProfile.addEventListener('click', () => {
-    popupEditProfileElement.open();
-  
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileInfo.textContent;
-  });
-  
-  popupFormEditProfile.addEventListener('submit', editProfile);
-  
-  //функция редактирования профиля
-
-export function editProfile(event) {
-    event.preventDefault();
-
-    profileName.textContent = nameInput.value;
-    profileInfo.textContent = jobInput.value;
-
-    //closePopup(popupEditProfile);
-    popupEditProfileElement.close();
+  close() {
+    super.close();
+    this._form.reset();
+  }
 }
-const profileName = document.querySelector('.profile__title');
-const profileInfo = document.querySelector('.profile__subtitle');
-
-const nameInput = popupFormEditProfile.querySelector('.popup__input[name=user]');
-const jobInput = popupFormEditProfile.querySelector('.popup__input[name=profession]');
 */

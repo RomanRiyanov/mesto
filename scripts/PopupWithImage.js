@@ -3,6 +3,9 @@ import {Popup} from './Popup.js';
 import {imageViewWindow, figcaption} from './utils/constants.js';
    
 export class PopupWithImage extends Popup {
+        constructor(popupSelector) {
+            super(popupSelector)
+        }
     open() {        
         imageViewWindow.src = event.target.src;
         imageViewWindow.alt = event.target.alt;

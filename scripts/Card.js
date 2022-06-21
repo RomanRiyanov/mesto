@@ -1,25 +1,24 @@
 import {imageViewPopupElement} from './index.js';
 
 export class Card {
-    constructor (data, templateSelector) {
+    constructor (data, templateSelector, handleCardClick) {
         this._data = data;
         this._templateSelector = templateSelector;
+        this._handleCardClick = handleCardClick;
     }
 
     _getTemplate() {
         const element = 
-        document.querySelector(`${this._templateSelector}`).
-        content.querySelector('.element').
-        cloneNode(true);
+        document.querySelector(`${this._templateSelector}`)
+            .content.querySelector('.element')
+            .cloneNode(true);
 
         return element;
     }
 
     _setEventListeners() {
         //this._elementPhoto.addEventListener('click', openImageView); 
-        this._elementPhoto.addEventListener('click', () => {
-            imageViewPopupElement.open();
-        }); 
+        this._elementPhoto.addEventListener('click', this._handleCardClick.bind(this)); 
 
         this._element.querySelector('.like-button').addEventListener('click', this._likeButtonHandler);
 
@@ -27,6 +26,8 @@ export class Card {
             this._deleteButtonHandler();
         });
     }
+
+
 
     _likeButtonHandler = function (event) {
     event.target.classList.toggle('like-button_active');
