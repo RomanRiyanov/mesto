@@ -43,7 +43,7 @@ export const initialCards = [
    export const photoAddCloseButton = document.querySelector('#close-button_add-photo');
 
    export const placeInput = document.querySelector('.popup__input[name=place]');
-   export const urlInput = document.querySelector('.popup__input[name=image-url]');
+   export const urlInput = document.querySelector('.popup__input[name=imageUrl]');
 
    //окно редактирования имени профиля
 

@@ -1,9 +1,3 @@
-//import {closePopup} from './utils/utils.js';
-import {popupAddPhoto}  from './utils/constants.js';
-import {/*popupAddPhotoElement popupWithForm */userInfoPopup}  from './index.js';
-import { Card } from './Card.js';
-
-
 export class Section {
     constructor (data, containerSelector) {
         this._items = data.items;
@@ -18,11 +12,6 @@ export class Section {
     }
 
     addItem (cardItem) {
-        //event.preventDefault();
         this._cardsContainer.prepend(cardItem);
-        //closePopup(popupAddPhoto);
-        //popupAddPhotoElement.close();
-        //popupWithForm.close();
-        // userInfoPopup.close();
     }
 }

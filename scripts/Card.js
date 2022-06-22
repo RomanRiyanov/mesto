@@ -1,5 +1,3 @@
-import {imageViewPopupElement} from './index.js';
-
 export class Card {
     constructor (data, templateSelector, handleCardClick) {
         this._data = data;
@@ -17,7 +15,6 @@ export class Card {
     }
 
     _setEventListeners() {
-        //this._elementPhoto.addEventListener('click', openImageView); 
         this._elementPhoto.addEventListener('click', this._handleCardClick.bind(this)); 
 
         this._element.querySelector('.like-button').addEventListener('click', this._likeButtonHandler);
@@ -26,8 +23,6 @@ export class Card {
             this._deleteButtonHandler();
         });
     }
-
-
 
     _likeButtonHandler = function (event) {
     event.target.classList.toggle('like-button_active');
