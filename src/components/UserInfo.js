@@ -8,8 +8,8 @@ export class UserInfo {
 
     getUserInfo() {
         const user = {
-            user:  this._userName.textContent,
-            profession:  this._userDescription.textContent
+            user: this._userName.textContent,
+            profession: this._userDescription.textContent
         }
         return user;
     }

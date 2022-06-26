@@ -1,10 +1,10 @@
-import './pages/index.css';
-import {Card} from './scripts/Card.js';
-import {FormValidator} from './scripts/FormValidator.js';
-import {Section} from './scripts/Section.js';
-import {PopupWithImage} from './scripts/PopupWithImage.js';
-import {PopupWithForm} from './scripts/PopupWithForm.js';
-import {UserInfo} from './scripts/UserInfo.js';
+import './index.css';
+import {Card} from '../components/Card.js';
+import {FormValidator} from '../components/FormValidator.js';
+import {Section} from '../components/Section.js';
+import {PopupWithImage} from '../components/PopupWithImage.js';
+import {PopupWithForm} from '../components/PopupWithForm.js';
+import {UserInfo} from '../components/UserInfo.js';
 
 import {
   initialCards,
@@ -13,18 +13,19 @@ import {
   popupFormEditProfile,
   buttonEditProfile,
   buttonAddPhoto,
-} from './scripts/utils/constants.js';
+} from '../components/utils/constants.js';
 
 //функции
 
 function createCard (item) {
-  const card = new Card (item, '#element', imageViewPopupElement.open.bind(imageViewPopupElement));
+  const card = new Card (item, '#element', () => imageViewPopupElement.open(item));
+
   return card.createNewElement();
 }
 //установка слушателей на попап просмотра фотографий
 
 const imageViewPopupElement = new PopupWithImage ('#popup_view-photo');
-imageViewPopupElement.setEventSisteners();
+imageViewPopupElement.setEventListeners();
 
 //установка слушателей на попапы
 
@@ -36,17 +37,17 @@ const userInfoPopup = new PopupWithForm({
   popupSelector: '#popup_edit-profile',
   submitFormHandler: userInfo.setUserInfo.bind(userInfo)
 });
-const addedPhotoPopap = new PopupWithForm({
+const addedPhotoPopup = new PopupWithForm({
   popupSelector: '#popup_add-photo',
   submitFormHandler: ({place, imageUrl }) => section.addItem(createCard({ name: place, link: imageUrl }))
 });
 
 buttonEditProfile.addEventListener('click', () => userInfoPopup.open(userInfo.getUserInfo()));
 buttonAddPhoto.addEventListener('click', () => {
-  addedPhotoPopap.open({ place: '', imageUrl: ''});
+  addedPhotoPopup.open({ place: '', imageUrl: ''});
   viewedAddPhotoWindow.toggleButtonState();
 });
-addedPhotoPopap.setEventListeners();
+addedPhotoPopup.setEventListeners();
 userInfoPopup.setEventListeners();
 
 //установка валидации на все формы
@@ -67,4 +68,7 @@ const cardData = {
   renderer: createCard
 };
 const section = new Section (cardData, '.elements');
-section.renderAllPage();
+section.renderAllPage(initialCards);
+
+
+// section.addItem();
