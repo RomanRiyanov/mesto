@@ -13,15 +13,20 @@ import {
   popupFormEditProfile,
   buttonEditProfile,
   buttonAddPhoto,
-} from '../components/utils/constants.js';
+} from '../utils/constants.js';
 
 //функции
 
 function createCard (item) {
   const card = new Card (item, '#element', () => imageViewPopupElement.open(item));
-
   return card.createNewElement();
 }
+
+function renderCard (data, container) {
+  const card = createCard(data);
+  container.prepend(card);
+}
+
 //установка слушателей на попап просмотра фотографий
 
 const imageViewPopupElement = new PopupWithImage ('#popup_view-photo');
@@ -65,10 +70,7 @@ viewedAddPhotoWindow.toggleButtonState();
 
 const cardData = {
   items: initialCards, 
-  renderer: createCard
+  renderer: renderCard
 };
 const section = new Section (cardData, '.elements');
 section.renderAllPage(initialCards);
-
-
-// section.addItem();
