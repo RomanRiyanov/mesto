@@ -6,7 +6,7 @@ export class Section {
 
         renderAllPage (data) {
             data.forEach((item) => {
-                this._renderer(item, this._cardsContainer) ;
+                this._renderer(item) ;
             });
         } 
 

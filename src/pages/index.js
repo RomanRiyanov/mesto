@@ -22,9 +22,9 @@ function createCard (item) {
   return card.createNewElement();
 }
 
-function renderCard (data, container) {
+function renderCard (data) {
   const card = createCard(data);
-  container.prepend(card);
+  section.addItem(card);
 }
 
 //установка слушателей на попап просмотра фотографий
