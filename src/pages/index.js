@@ -1,4 +1,5 @@
 import './index.css';
+import {Popup} from '../components/Popup.js';
 import {Card} from '../components/Card.js';
 import {FormValidator} from '../components/FormValidator.js';
 import {Section} from '../components/Section.js';
@@ -18,7 +19,13 @@ import {
 //функции
 
 function createCard (item) {
-  const card = new Card (item, '#element', () => imageViewPopupElement.open(item));
+  const card = new Card (
+    item,
+    '#element',
+    () => imageViewPopupElement.open(item),
+    () => deletingPhotoConfirmPopap.open()
+    //() => console.log('Press trash')
+  );
   return card.createNewElement();
 }
 
@@ -46,6 +53,15 @@ const addedPhotoPopup = new PopupWithForm({
   popupSelector: '#popup_add-photo',
   submitFormHandler: ({place, imageUrl }) => section.addItem(createCard({ name: place, link: imageUrl }))
 });
+
+
+
+
+const deletingPhotoConfirmPopap = new Popup('#popup_delete-photo');
+
+
+
+
 
 buttonEditProfile.addEventListener('click', () => userInfoPopup.open(userInfo.getUserInfo()));
 buttonAddPhoto.addEventListener('click', () => {

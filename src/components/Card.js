@@ -1,8 +1,9 @@
 export class Card {
-    constructor (data, templateSelector, handleCardClick) {
+    constructor (data, templateSelector, handleCardClick, deleteConfirm) {
         this._data = data;
         this._templateSelector = templateSelector;
         this._handleCardClick = handleCardClick;
+        this._deleteConfirm = deleteConfirm;
     }
 
     _getTemplate() {
@@ -20,6 +21,9 @@ export class Card {
         this._element.querySelector('.like-button').addEventListener('click', this._likeButtonHandler);
 
         this._element.querySelector('.delete-button').addEventListener('click', () => {
+            //this._deleteConfirm.bind(this);
+            this._deleteConfirm();
+
             this._deleteButtonHandler();
         });
     }
