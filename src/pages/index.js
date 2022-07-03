@@ -58,7 +58,7 @@ const addedPhotoPopup = new PopupWithForm({
 
 
 const deletingPhotoConfirmPopap = new Popup('#popup_delete-photo');
-
+deletingPhotoConfirmPopap.setEventListeners();
 
 
 

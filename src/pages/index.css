@@ -42,3 +42,7 @@
 @import url(../blocks/profession-input-error/profession-input-error.css);
 @import url(../blocks/place-input-error/place-input-error.css);
 @import url(../blocks/url-input-error/url-input-error.css);
+
+@import url(../blocks/popup/__window/_type/popup__window_type_confirmation.css);
+@import url(../blocks/popup/__title/_type/popup__title_type_confirmation.css);
+@import url(../blocks/profile/__image/profile__image_update.css);
