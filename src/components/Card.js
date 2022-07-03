@@ -23,7 +23,7 @@ export class Card {
 
         this._element.querySelector('.delete-button').addEventListener('click', () => {
             const deletingPhotoConfirmPopap = new Popup('#popup_delete-photo');
-           до deletingPhotoConfirmPopap.setEventListeners();
+            deletingPhotoConfirmPopap.setEventListeners();
             deletingPhotoConfirmPopap.open();
             document.querySelector('.confirm-button').addEventListener('click', (event) => {
                 event.preventDefault();
