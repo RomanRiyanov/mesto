@@ -1,9 +1,10 @@
+import {Popup} from '../components/Popup.js';
 export class Card {
-    constructor (data, templateSelector, handleCardClick, deleteConfirm) {
+    constructor (data, templateSelector, handleCardClick/*, deleteConfirm*/) {
         this._data = data;
         this._templateSelector = templateSelector;
         this._handleCardClick = handleCardClick;
-        this._deleteConfirm = deleteConfirm;
+        // this._deleteConfirm = deleteConfirm;
     }
 
     _getTemplate() {
@@ -21,18 +22,38 @@ export class Card {
         this._element.querySelector('.like-button').addEventListener('click', this._likeButtonHandler);
 
         this._element.querySelector('.delete-button').addEventListener('click', () => {
-            //this._deleteConfirm.bind(this);
-            this._deleteConfirm();
+            const deletingPhotoConfirmPopap = new Popup('#popup_delete-photo');
+           до deletingPhotoConfirmPopap.setEventListeners();
+            deletingPhotoConfirmPopap.open();
+            document.querySelector('.confirm-button').addEventListener('click', (event) => {
+                event.preventDefault();
+                this._deleteButtonHandler.call(this);
+                console.log(this);
+                deletingPhotoConfirmPopap.close();
+            })
+            // this._deleteConfirm();
 
-            this._deleteButtonHandler();
+            // this._deleteButtonHandler();
         });
-    }
+
+        //this._element.querySelector('.delete-button').addEventListener('click', this._deleteConfirm.bind(this));
+
+
+    //     document.querySelector('.popup__window_type_confirmation').addEventListener('submit', (event) => {
+    //         //this._deleteConfirm();
+    //         event.preventDefault();
+    //         console.log(event.target.closest('.element'));
+    //         //event.target.closest('.element').remove();
+    //         // console.log('удаление вот тут');
+    //         // this._deleteButtonHandler.bind(this);
+    //     });
+     }
 
     _likeButtonHandler = function (event) {
     event.target.classList.toggle('like-button_active');
     }
     
-    _deleteButtonHandler = function () {
+    _deleteButtonHandler = () => {
         this._element.remove();
         this._element = null;
     }
