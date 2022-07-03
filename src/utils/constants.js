@@ -67,3 +67,11 @@ export const initialCards = [
    export const imageViewCloseButton = document.querySelector('#close-button_view-photo');
    export const imageViewWindow = document.querySelector('.popup__view-image');
    export const figcaption = document.querySelector('.popup__figcaption');
+
+   //аватар профиля
+
+   export const profileAvatar = document.querySelector('.profile__image');
+
+   //удаление карточки
+
+   export const confirmButton = document.querySelector('.confirm-button');

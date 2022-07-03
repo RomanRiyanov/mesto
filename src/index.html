@@ -15,7 +15,7 @@
         <main class="main">
             <section class="profile">
                 <div class="profile__image_update"></div>
-                <img src="<%=require('./images/profile-photo.jpg')%>" alt="Фото профиля">
+                <img class="profile__image" src="<%=require('./images/profile-photo.jpg')%>" alt="Фото профиля">
                 <div class="profile__info">
                     <h1 class="profile__title">Жак Ив Кусто</h1>
                     <button aria-label="Редактировать профиль" class="edit-button"></button>
@@ -65,14 +65,36 @@
         </div>
     </div>
 
+
+
+
+
+    <div class="popup" id="popup_add-avatar">
+        <div class="popup__window popup__window_type_avatar">
+            <button aria-label="Закрыть" class="close-button" id="close-button_add-photo"></button>
+            <h2 class="popup__title">Обновить аватар</h2>
+            <form class="popup__form" id="popup__form_add-avatar" novalidate>
+                <input class="popup__input" id="url-avatar" placeholder="Ссылка на новый аватар" type="url" name="avatarUrl" required>
+                <span class="popup__input-error url-input-error"></span>
+                <button aria-label="Сохранить" class="create-button submit-button" type="submit">
+                    Сохранить
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
     <div class="popup" id="popup_delete-photo">
-        <div class="popup__window popup__window_type_confirmation">
+        <form class="popup__window popup__window_type_confirmation">
             <button aria-label="Закрыть" class="close-button" id="close-button_delete-photo"></button>
             <h2 class="popup__title popup__title_type_confirmation">Вы уверены?</h2>
-            <button aria-label="Да" class="confirm-button submit-button" type="submit">
+            <button aria-label="Да" class="confirm-button submit-button" type="button">
                 Да
             </button>
-        </div>
+        </form>
     </div>
 
     <div class="popup" id="popup_view-photo">

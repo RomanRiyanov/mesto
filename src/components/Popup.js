@@ -32,7 +32,7 @@ export class Popup {
         this._closeButton.addEventListener('click', () => {
             this.close();
         });
-        this._popup.addEventListener('click', () => {
+        this._popup.addEventListener('click', (event) => {
             this._closePopupByPressOnOverlay(event);
         });
     }

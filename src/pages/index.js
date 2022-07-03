@@ -6,6 +6,7 @@ import {Section} from '../components/Section.js';
 import {PopupWithImage} from '../components/PopupWithImage.js';
 import {PopupWithForm} from '../components/PopupWithForm.js';
 import {UserInfo} from '../components/UserInfo.js';
+import { PopupWithAvatar } from '../components/PopupWithAvatar';
 
 import {
   initialCards,
@@ -14,7 +15,34 @@ import {
   popupFormEditProfile,
   buttonEditProfile,
   buttonAddPhoto,
+  profileAvatar,
+  confirmButton
 } from '../utils/constants.js';
+
+
+// fetch('https://mesto.nomoreparties.co/v1/cohort-44/cards', {
+//   headers: {
+//     authorization: '6b29f5e5-c172-4a06-806f-c42366ee7092'
+//   }
+// })
+//   .then(res => res.json())
+//   .then((result) => {
+//     console.log(result);
+//   });
+
+
+  const profileFromserver = fetch('https://mesto.nomoreparties.co/v1/cohort-44/users/me', {
+    method: 'GET',
+    headers: {
+      authorization: '6b29f5e5-c172-4a06-806f-c42366ee7092'
+    }
+  })
+    .then(res => res.json())
+    .then((result) => {
+      console.log(result);
+      
+    });
+
 
 //функции
 
@@ -23,7 +51,10 @@ function createCard (item) {
     item,
     '#element',
     () => imageViewPopupElement.open(item),
-    () => deletingPhotoConfirmPopap.open()
+    // () => {
+    //   deletingPhotoConfirmPopap.open(),
+     // this._deleteButtonHandler.bind(this);
+  //  }
     //() => console.log('Press trash')
   );
   return card.createNewElement();
@@ -57,8 +88,35 @@ const addedPhotoPopup = new PopupWithForm({
 
 
 
-const deletingPhotoConfirmPopap = new Popup('#popup_delete-photo');
-deletingPhotoConfirmPopap.setEventListeners();
+
+
+// const deletingPhotoConfirmPopap = new Popup('#popup_delete-photo');
+// deletingPhotoConfirmPopap.setEventListeners();
+// // confirmButton.addEventListener('click', () => {
+// //   deletingPhotoConfirmPopap.
+// // })
+
+
+const addedAvatarPopup = new PopupWithAvatar({
+  popupSelector: '#popup_add-avatar',
+  submitFormHandler: (value) => {
+    console.log('submitFormHandler от аватара');
+    profileAvatar.src = value;
+  }
+});
+
+profileAvatar.addEventListener('click', ()=> {
+  addedAvatarPopup.open({avatarUrl: ''});
+});
+addedAvatarPopup.setEventListeners();
+
+// const viewedAddedAvatarPopup = new FormValidator (validationConfig, addedAvatarPopup);
+// viewedAddedAvatarPopup.enableValidation();
+// PopupWithForm
+// PopupWithAvatar
+
+
+
 
 
 
