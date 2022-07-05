@@ -7,6 +7,7 @@ import {PopupWithImage} from '../components/PopupWithImage.js';
 import {PopupWithForm} from '../components/PopupWithForm.js';
 import {UserInfo} from '../components/UserInfo.js';
 import { PopupWithAvatar } from '../components/PopupWithAvatar';
+import { Api } from '../components/Api';
 
 import {
   initialCards,
@@ -30,18 +31,48 @@ import {
 //     console.log(result);
 //   });
 
+const apiConfig = {
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-44',
+  headers: {
+    authorization: '6b29f5e5-c172-4a06-806f-c42366ee7092',
+    'Content-Type': 'application/json'
+  }
+}
 
-  const profileFromserver = fetch('https://mesto.nomoreparties.co/v1/cohort-44/users/me', {
-    method: 'GET',
-    headers: {
-      authorization: '6b29f5e5-c172-4a06-806f-c42366ee7092'
-    }
-  })
-    .then(res => res.json())
-    .then((result) => {
-      console.log(result);
-      
+const api = new Api (apiConfig);
+
+api.getUserInfo()
+  .then((res) => {
+    console.log(res);
+    userInfo.setUserInfo(res.name, res.about);
+    
+    const addedAvatarPopup = new PopupWithAvatar({
+      popupSelector: '#popup_add-avatar',
+      submitFormHandler: () => {
+        console.log('submitFormHandler от аватара');
+        profileAvatar.src = res.avatar;
+      }
     });
+    profileAvatar.addEventListener('click', ()=> {
+      addedAvatarPopup.open({avatarUrl: ''});
+    });
+    addedAvatarPopup.setEventListeners();
+  })
+
+
+
+
+const section = new Section (renderCard, '.elements');
+
+api.getCards()
+  .then((res) => {
+      section.renderAllPage(res);
+  });
+
+
+
+
+
 
 
 //функции
@@ -97,18 +128,18 @@ const addedPhotoPopup = new PopupWithForm({
 // // })
 
 
-const addedAvatarPopup = new PopupWithAvatar({
-  popupSelector: '#popup_add-avatar',
-  submitFormHandler: (value) => {
-    console.log('submitFormHandler от аватара');
-    profileAvatar.src = value;
-  }
-});
+// const addedAvatarPopup = new PopupWithAvatar({
+//   popupSelector: '#popup_add-avatar',
+//   submitFormHandler: (value) => {
+//     console.log('submitFormHandler от аватара');
+//     profileAvatar.src = value;
+//   }
+// });
 
-profileAvatar.addEventListener('click', ()=> {
-  addedAvatarPopup.open({avatarUrl: ''});
-});
-addedAvatarPopup.setEventListeners();
+// profileAvatar.addEventListener('click', ()=> {
+//   addedAvatarPopup.open({avatarUrl: ''});
+// });
+// addedAvatarPopup.setEventListeners();
 
 // const viewedAddedAvatarPopup = new FormValidator (validationConfig, addedAvatarPopup);
 // viewedAddedAvatarPopup.enableValidation();
@@ -142,9 +173,12 @@ viewedAddPhotoWindow.toggleButtonState();
 
 //отрисовка элементов на страницу
 
-const cardData = {
-  items: initialCards, 
-  renderer: renderCard
-};
-const section = new Section (cardData, '.elements');
-section.renderAllPage(initialCards);
+
+
+
+// const cardData = {
+//   items: initialCards, 
+//   renderer: renderCard
+// };
+// const section = new Section (cardData, '.elements');
+// section.renderAllPage(initialCards);

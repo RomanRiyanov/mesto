@@ -5,7 +5,7 @@ export class UserInfo {
         this._userName = document.querySelector(this._userNameSelector);
         this._userDescription = document.querySelector(this._userDescriptionSelector);
     }
-
+    
     getUserInfo() {
         const user = {
             user: this._userName.textContent,
@@ -13,9 +13,11 @@ export class UserInfo {
         }
         return user;
     }
-
-    setUserInfo({user, profession}){
+    
+    setUserInfo(user, profession){
       this._userName.textContent = user;
       this._userDescription.textContent = profession;
     }
 }
+
+
