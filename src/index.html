@@ -15,11 +15,11 @@
         <main class="main">
             <section class="profile">
                 <div class="profile__image_update"></div>
-                <img class="profile__image" src="<%=require('./images/profile-photo.jpg')%>" alt="Фото профиля">
+                <img class="profile__image" src="" alt="Фото профиля">
                 <div class="profile__info">
-                    <h1 class="profile__title">Жак Ив Кусто</h1>
+                    <h1 class="profile__title"></h1>
                     <button aria-label="Редактировать профиль" class="edit-button"></button>
-                    <h2 class="profile__subtitle">Исследователь океана</h2>
+                    <h2 class="profile__subtitle"></h2>
                 </div>
                 <button aria-label="Добавить фото" class="add-button"></button>
             </section>
@@ -112,7 +112,10 @@
             <img class="element__photo" src="..." alt="Добавленная фотография">
             <div class="element__container">
                 <h2 class="element__title"></h2>
-                <button aria-label="Лайк" class="like-button"></button>
+                <div class="like_container">
+                    <button aria-label="Лайк" class="like-button"></button>
+                    <p class="like_counter">0</p>
+                </div>
                 <button aria-label="Удалить" class="delete-button"></button>
             </div>
         </div>

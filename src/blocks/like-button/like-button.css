@@ -1,6 +1,7 @@
 .like-button {
-    max-width: 22px;
-    width: 100%;
+    /* max-width: 22px;
+    width: 100%; */
+    width: 22px;
     height: 19px;
     padding: 0;
     cursor: pointer;

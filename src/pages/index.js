@@ -21,16 +21,6 @@ import {
 } from '../utils/constants.js';
 
 
-// fetch('https://mesto.nomoreparties.co/v1/cohort-44/cards', {
-//   headers: {
-//     authorization: '6b29f5e5-c172-4a06-806f-c42366ee7092'
-//   }
-// })
-//   .then(res => res.json())
-//   .then((result) => {
-//     console.log(result);
-//   });
-
 const apiConfig = {
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-44',
   headers: {
@@ -43,14 +33,15 @@ const api = new Api (apiConfig);
 
 api.getUserInfo()
   .then((res) => {
-    console.log(res);
     userInfo.setUserInfo(res.name, res.about);
-    
+    profileAvatar.src = res.avatar;
     const addedAvatarPopup = new PopupWithAvatar({
       popupSelector: '#popup_add-avatar',
-      submitFormHandler: () => {
-        console.log('submitFormHandler от аватара');
-        profileAvatar.src = res.avatar;
+      submitFormHandler: (avatar) => {
+        api.setUserAvatar(avatar)
+        .then(({avatar}) => {
+          profileAvatar.src = avatar
+        });   
       }
     });
     profileAvatar.addEventListener('click', ()=> {
@@ -59,7 +50,11 @@ api.getUserInfo()
     addedAvatarPopup.setEventListeners();
   })
 
-
+  
+// api.setUserInfo(userInfoPopup._getInputValues())
+//   .then((res) => {
+//     console.log(res)
+//   })
 
 
 const section = new Section (renderCard, '.elements');
@@ -109,17 +104,32 @@ const userInfo = new UserInfo({
 });
 const userInfoPopup = new PopupWithForm({
   popupSelector: '#popup_edit-profile',
-  submitFormHandler: userInfo.setUserInfo.bind(userInfo)
+  //submitFormHandler: userInfo.getUserInfo.bind(userInfo)
+  submitFormHandler: (data) => {
+    api.setUserInfo(data)
+    .then((res) => {
+      userInfo.setUserInfo( res.name, res.about)
+    })
+  }
 });
 const addedPhotoPopup = new PopupWithForm({
   popupSelector: '#popup_add-photo',
-  submitFormHandler: ({place, imageUrl }) => section.addItem(createCard({ name: place, link: imageUrl }))
+  //submitFormHandler: ({place, imageUrl}) => section.addItem(createCard({ name: place, link: imageUrl }))
+  submitFormHandler: (inputValues) => 
+    api.addNewCard(inputValues)
+    .then((res) => {
+      renderCard(res)
+    })
 });
 
 
 
+// console.log(userInfoPopup._getInputValues());
 
-
+// api.setUserInfo(userInfoPopup._getInputValues())
+//     .then((res) => {
+//       userInfo.setUserInfo(res.name, res.about);
+//     })
 
 // const deletingPhotoConfirmPopap = new Popup('#popup_delete-photo');
 // deletingPhotoConfirmPopap.setEventListeners();
