@@ -71,6 +71,9 @@ export const initialCards = [
    //аватар профиля
 
    export const profileAvatar = document.querySelector('.profile__image');
+   export const profileAvatarPopup = document.querySelector('#popup_add-avatar');
+   export const popupFormProfileAvatar = profileAvatarPopup.querySelector('#popup__form_add-avatar');
+
 
    //удаление карточки
 

@@ -19,11 +19,11 @@ export class Popup {
         }
     }
 
-    open(onSubmitPopup) {
+    open(handlePopapSubmit) {
         this._popup.classList.add('popup_viewable');
         document.addEventListener('keydown', this._handleEscClose);
-        this._onSubmitPopup = onSubmitPopup;
-        console.log(onSubmitPopup)
+        this._handlePopapSubmit = handlePopapSubmit;
+        console.log(handlePopapSubmit)
     }
 
     close() {
@@ -52,8 +52,8 @@ export class Popup {
 
         if (confirmButton) {
             confirmButton.addEventListener('click', () => {
-                if (typeof this._onSubmitPopup === 'function') {
-                    this._onSubmitPopup();
+                if (typeof this._handlePopapSubmit === 'function') {
+                    this._handlePopapSubmit();
                 }
             })
         }

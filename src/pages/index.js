@@ -17,7 +17,8 @@ import {
   buttonEditProfile,
   buttonAddPhoto,
   profileAvatar,
-  confirmButton
+  confirmButton,
+  popupFormProfileAvatar
 } from '../utils/constants.js';
 
 
@@ -44,13 +45,18 @@ api.getUserInfo()
       submitFormHandler: (avatar) => {
         api.setUserAvatar(avatar)
         .then(({avatar}) => {
-          profileAvatar.src = avatar
-        });   
+          profileAvatar.src = avatar;
+        });
       }
     });
     profileAvatar.addEventListener('click', ()=> {
       addedAvatarPopup.open({avatarUrl: ''});
     });
+
+    const viewedAddedAvatarPopup = new FormValidator (validationConfig, popupFormProfileAvatar);
+    viewedAddedAvatarPopup.enableValidation();
+    viewedAddedAvatarPopup.toggleButtonState();
+
     addedAvatarPopup.setEventListeners();
   })
 
