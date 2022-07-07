@@ -9,6 +9,7 @@ export class Popup {
     _handleEscClose (event) {
         if (event.key === 'Escape') {
           this.close();
+
         }
     }
 
@@ -18,9 +19,11 @@ export class Popup {
         }
     }
 
-    open() {
+    open(onSubmitPopup) {
         this._popup.classList.add('popup_viewable');
         document.addEventListener('keydown', this._handleEscClose);
+        this._onSubmitPopup = onSubmitPopup;
+        console.log(onSubmitPopup)
     }
 
     close() {
@@ -28,12 +31,31 @@ export class Popup {
         document.removeEventListener('keydown', this._handleEscClose);
     }
 
+    setLoading(value) {
+        const submitButton = this._popup.querySelector('.submit-button');
+        if (value) {
+            submitButton.textContent = submitButton.textContent + '...';
+        } else {
+            submitButton.textContent = submitButton.textContent.slice(0, -3);
+        }
+    }
+
     setEventListeners() {
-        this._closeButton.addEventListener('click', () => {
+        this._closeButton.addEventListener('click', (event) => {
+            event.preventDefault();
             this.close();
         });
         this._popup.addEventListener('click', (event) => {
             this._closePopupByPressOnOverlay(event);
         });
+        const confirmButton = this._popup.querySelector('.confirm-button');
+
+        if (confirmButton) {
+            confirmButton.addEventListener('click', () => {
+                if (typeof this._onSubmitPopup === 'function') {
+                    this._onSubmitPopup();
+                }
+            })
+        }
     }
 }

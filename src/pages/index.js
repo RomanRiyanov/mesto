@@ -31,9 +31,13 @@ const apiConfig = {
 
 const api = new Api (apiConfig);
 
+let userId = null;
+
 api.getUserInfo()
   .then((res) => {
+    console.log(res);
     userInfo.setUserInfo(res.name, res.about);
+    userId = res._id;
     profileAvatar.src = res.avatar;
     const addedAvatarPopup = new PopupWithAvatar({
       popupSelector: '#popup_add-avatar',
@@ -72,11 +76,29 @@ api.getCards()
 
 //функции
 
+const deletingPhotoConfirmPopap = new Popup('#popup_delete-photo');
+deletingPhotoConfirmPopap.setEventListeners();
+
+
+
 function createCard (item) {
   const card = new Card (
     item,
     '#element',
-    () => imageViewPopupElement.open(item),
+    { 
+      handleCardClick: () => imageViewPopupElement.open(item),
+      handleDeleteCard: () => deletingPhotoConfirmPopap.open(() => {
+        deletingPhotoConfirmPopap.setLoading(true);
+        api.deleteCard(item._id).then(() => {
+          card.delete();
+          deletingPhotoConfirmPopap.setLoading(false);
+          deletingPhotoConfirmPopap.close();
+        })
+      }),
+      handleLikeClick: (newValue) => api[newValue ? 'likeCard' : 'unLikeCard'](item._id).then(res => card.updateCardData(res)),
+      userId
+    }
+
     // () => {
     //   deletingPhotoConfirmPopap.open(),
      // this._deleteButtonHandler.bind(this);
@@ -90,6 +112,8 @@ function renderCard (data) {
   const card = createCard(data);
   section.addItem(card);
 }
+
+
 
 //установка слушателей на попап просмотра фотографий
 
@@ -106,20 +130,30 @@ const userInfoPopup = new PopupWithForm({
   popupSelector: '#popup_edit-profile',
   //submitFormHandler: userInfo.getUserInfo.bind(userInfo)
   submitFormHandler: (data) => {
+    userInfoPopup.setLoading(true);
+
     api.setUserInfo(data)
     .then((res) => {
-      userInfo.setUserInfo( res.name, res.about)
+      userInfo.setUserInfo( res.name, res.about);
+      userId = res._id;
+      userInfoPopup.setLoading(false);
+      userInfoPopup.close();
     })
   }
 });
 const addedPhotoPopup = new PopupWithForm({
   popupSelector: '#popup_add-photo',
   //submitFormHandler: ({place, imageUrl}) => section.addItem(createCard({ name: place, link: imageUrl }))
-  submitFormHandler: (inputValues) => 
+  submitFormHandler: (inputValues) => {
+    addedPhotoPopup.setLoading(true);
+
     api.addNewCard(inputValues)
     .then((res) => {
       renderCard(res)
+      addedPhotoPopup.setLoading(false);
+      addedPhotoPopup.close();
     })
+  }
 });
 
 
