@@ -1,32 +1,5 @@
 //внешние данные
 
-export const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-  ];
-
   export const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -73,8 +46,3 @@ export const initialCards = [
    export const profileAvatar = document.querySelector('.profile__image');
    export const profileAvatarPopup = document.querySelector('#popup_add-avatar');
    export const popupFormProfileAvatar = profileAvatarPopup.querySelector('#popup__form_add-avatar');
-
-
-   //удаление карточки
-
-   export const confirmButton = document.querySelector('.confirm-button');

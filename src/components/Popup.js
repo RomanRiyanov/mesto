@@ -9,7 +9,6 @@ export class Popup {
     _handleEscClose (event) {
         if (event.key === 'Escape') {
           this.close();
-
         }
     }
 
@@ -23,7 +22,6 @@ export class Popup {
         this._popup.classList.add('popup_viewable');
         document.addEventListener('keydown', this._handleEscClose);
         this._handlePopapSubmit = handlePopapSubmit;
-        console.log(handlePopapSubmit)
     }
 
     close() {

@@ -1,5 +1,3 @@
-import {Popup} from '../components/Popup.js';
-import { Api } from './Api.js';
 export class Card {
     constructor (data, templateSelector, { handleCardClick, handleDeleteCard, handleLikeClick , userId }) {
         this._data = data;
@@ -32,29 +30,8 @@ export class Card {
         } else {
             deleteButton.style.display = 'none';
         }
-        
-        
-        
-   
-
-        //this._element.querySelector('.delete-button').addEventListener('click', this._deleteConfirm.bind(this));
-
-
-    //     document.querySelector('.popup__window_type_confirmation').addEventListener('submit', (event) => {
-    //         //this._deleteConfirm();
-    //         event.preventDefault();
-    //         console.log(event.target.closest('.element'));
-    //         //event.target.closest('.element').remove();
-    //         // console.log('удаление вот тут');
-    //         // this._deleteCard.bind(this);
-    //     });
      }
 
-    // _likeButtonHandler = function (event) {
-    //     event.target.classList.toggle('like-button_active');
-
-    // }
-    
     delete = () => {
         this._element.remove();
         this._element = null;
