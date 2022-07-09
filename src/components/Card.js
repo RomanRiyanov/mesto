@@ -17,18 +17,23 @@ export class Card {
     }
 
     _setEventListeners() {
+        this._elementPhoto = this._element.querySelector('.element__photo');
+
+        this._elementTitle = this._element.querySelector('.element__title');        
+        this._elementLikes = this._element.querySelector('.like_counter');
+        this._likeButton = this._element.querySelector('.like-button');
+        this._deleteButton = this._element.querySelector('.delete-button');
+
         this._elementPhoto.addEventListener('click', this._handleCardClick.bind(this)); 
 
-        this._element.querySelector('.like-button').addEventListener('click', () => {
-            const likeButton = this._element.querySelector('.like-button');
-            this._handleLikeClick(!likeButton.classList.contains('like-button_active'));
+        this._likeButton.addEventListener('click', () => {
+            this._handleLikeClick(!this._likeButton.classList.contains('like-button_active'));
         });
-        const deleteButton = this._element.querySelector('.delete-button');
 
         if (this._userId === this._data.owner._id) {
-            deleteButton.addEventListener('click', this._handleDeleteCard);
+            this._deleteButton.addEventListener('click', this._handleDeleteCard);
         } else {
-            deleteButton.style.display = 'none';
+            this._deleteButton.style.display = 'none';
         }
      }
 
@@ -38,16 +43,12 @@ export class Card {
     }
     
     _updateCardData() {
-        this._elementPhoto = this._element.querySelector('.element__photo');
         this._elementPhoto.src = this._data.link;
         
-        this._elementTitle = this._element.querySelector('.element__title');
         this._elementTitle.textContent = this._data.name;
 
-        this._elementLikes = this._element.querySelector('.like_counter');
         this._elementLikes.textContent = this._data.likes.length;
 
-        this._likeButton = this._element.querySelector('.like-button');
         const isLikeActive = this._data.likes.find((like) => (this._userId === like._id));
         
         if (isLikeActive) {
@@ -66,9 +67,8 @@ export class Card {
 
     createNewElement = () => {
         this._element = this._getTemplate();
-        this._updateCardData();
-   
         this._setEventListeners();
+        this._updateCardData();            
         return this._element;
     }
 }

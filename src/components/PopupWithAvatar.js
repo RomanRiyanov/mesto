@@ -3,10 +3,10 @@ import { PopupWithForm } from "./PopupWithForm.js";
 export class PopupWithAvatar extends PopupWithForm {
     constructor({popupSelector, submitFormHandler}) {
         super({popupSelector, submitFormHandler});
-        this._form = this._popup.querySelector('.popup__form');
+        this._input = this._form.querySelector('input');
     }
 
     _getInputValues() { 
-        return this._form.querySelector('input').value;
+        return this._input.value;
       }
 }

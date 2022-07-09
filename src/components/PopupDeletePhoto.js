@@ -1,33 +1,22 @@
-export class Popup {
-    constructor (popupSelector) {
-        this._popupSelector = popupSelector;
-        this._popup = document.querySelector(popupSelector);
-        this._closeButton = this._popup.querySelector('.close-button');
-        this._handleEscClose = this._handleEscClose.bind(this);
-    }
-    
-    _handleEscClose (event) {
-        if (event.key === 'Escape') {
-          this.close();
-        }
+import { PopupWithForm } from "./PopupWithForm";
+
+export class PopupDeletePhoto extends PopupWithForm {
+    constructor(popupSelector) {
+        super({popupSelector});
+        this._confirmButton = this._popup.querySelector('.confirm-button');
     }
 
-    _closePopupByPressOnOverlay (event) {
-        if (event.target === event.currentTarget) {
-          this.close();
-        }
-    }
-
-    open() {
+    open(handlePopapSubmit) {
         this._popup.classList.add('popup_viewable');
         document.addEventListener('keydown', this._handleEscClose);
+        this._handlePopapSubmit = handlePopapSubmit;
     }
 
     close() {
         this._popup.classList.remove('popup_viewable');
         document.removeEventListener('keydown', this._handleEscClose);
     }
-
+    
     setEventListeners() {
         this._closeButton.addEventListener('click', (event) => {
             event.preventDefault();
@@ -36,5 +25,8 @@ export class Popup {
         this._popup.addEventListener('click', (event) => {
             this._closePopupByPressOnOverlay(event);
         });
+        this._confirmButton.addEventListener('click', () => {
+            this._handlePopapSubmit();
+        })
     }
 }

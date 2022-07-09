@@ -1,5 +1,4 @@
 import './index.css';
-import {Popup} from '../components/Popup.js';
 import {Card} from '../components/Card.js';
 import {FormValidator} from '../components/FormValidator.js';
 import {Section} from '../components/Section.js';
@@ -7,6 +6,7 @@ import {PopupWithImage} from '../components/PopupWithImage.js';
 import {PopupWithForm} from '../components/PopupWithForm.js';
 import {UserInfo} from '../components/UserInfo.js';
 import { PopupWithAvatar } from '../components/PopupWithAvatar';
+import { PopupDeletePhoto } from '../components/PopupDeletePhoto';
 import { Api } from '../components/Api';
 
 import {
@@ -16,38 +16,10 @@ import {
   buttonEditProfile,
   buttonAddPhoto,
   profileAvatar,
-  popupFormProfileAvatar
+  popupFormProfileAvatar,
 } from '../utils/constants.js';
 
-//функции
-
-function createCard (item) {
-  const card = new Card (
-    item,
-    '#element',
-    { 
-      handleCardClick: () => imageViewPopupElement.open(item),
-      handleDeleteCard: () => deletingPhotoConfirmPopap.open(() => {
-        deletingPhotoConfirmPopap.setLoading(true);
-        api.deleteCard(item._id).then(() => {
-          card.delete();
-          deletingPhotoConfirmPopap.setLoading(false);
-          deletingPhotoConfirmPopap.close();
-        })
-      }),
-      handleLikeClick: (newValue) => api[newValue ? 'likeCard' : 'unLikeCard'](item._id).then(res => card.updateCardData(res)),
-      userId
-    }
-  );
-  return card.createNewElement();
-}
-
-function renderCard (data) {
-  const card = createCard(data);
-  section.addItem(card);
-}
-
-//константы и переменные
+//функции и константы
 
 const apiConfig = {
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-44',
@@ -59,59 +31,96 @@ const apiConfig = {
 
 const api = new Api (apiConfig);
 const section = new Section (renderCard, '.elements');
-
 let userId = null;
+
+function createCard (item) {
+  const card = new Card (
+    item,
+    '#element',
+    { 
+      handleCardClick: () => imageViewPopupElement.open(item),
+      handleDeleteCard: () => {
+        deletingPhotoConfirmPopap.open(() => {
+          api.deleteCard(item._id).then(() => {
+            deletingPhotoConfirmPopap.setLoading(false);
+            card.delete();
+            deletingPhotoConfirmPopap.close();
+          })
+          .finally(deletingPhotoConfirmPopap.setLoading(true))
+          .catch((err) => {
+            console.log(err);
+          }); 
+      });
+    },
+      handleLikeClick: (newValue) => api[newValue ? 'likeCard' : 'unLikeCard'](item._id).then(res => card.updateCardData(res)),
+      userId: userInfo.getUserInfo().id
+    }
+  );
+  return card.createNewElement();
+}
+
+function renderCard (data) {
+  const card = createCard(data);
+  section.addItem(card);
+}
 
 // вызов сервера через методы api
 
-api.getUserInfo()
-  .then((res) => {
-    userInfo.setUserInfo(res.name, res.about);
-    userId = res._id;
-    profileAvatar.src = res.avatar;
-    const addedAvatarPopup = new PopupWithAvatar({
-      popupSelector: '#popup_add-avatar',
-      submitFormHandler: (avatar) => {
-        api.setUserAvatar(avatar)
-        .then(({avatar}) => {
-          profileAvatar.src = avatar;
-        });
-      }
-    });
-    profileAvatar.addEventListener('click', ()=> {
-      addedAvatarPopup.open({avatarUrl: ''});
-    });
-    //валидация формы изменения аватара
-    const viewedAddedAvatarPopup = new FormValidator (validationConfig, popupFormProfileAvatar);
-    viewedAddedAvatarPopup.enableValidation();
-    viewedAddedAvatarPopup.toggleButtonState();
-    addedAvatarPopup.setEventListeners();
-  })
+const apiGetUserInfo = api.getUserInfo();
 
- 
-api.getCards()
-  .then((res) => {
-      section.renderAllPage(res);
-  });
+const apigetCards = api.getCards();
+
+Promise.all([apigetCards, apiGetUserInfo])
+  .then(([cards, userData]) => {
+      userInfo.setUserInfo(userData.name, userData.about, userData.avatar, userData._id);
+
+      const addedAvatarPopup = new PopupWithAvatar({
+        popupSelector: '#popup_add-avatar',
+        submitFormHandler: (avatar) => {
+          api.setUserAvatar(avatar)
+          .then(({avatar}) => {
+            profileAvatar.src = avatar;
+            addedAvatarPopup.close()
+          })
+        }
+      });
+      profileAvatar.addEventListener('click', ()=> {
+        addedAvatarPopup.open({avatarUrl: ''});
+        viewedAddedAvatarPopup.toggleButtonState();
+      });
+      //валидация формы изменения аватара
+      const viewedAddedAvatarPopup = new FormValidator (validationConfig, popupFormProfileAvatar);
+      viewedAddedAvatarPopup.enableValidation();
+      viewedAddedAvatarPopup.toggleButtonState();
+      addedAvatarPopup.setEventListeners();
+
+      section.renderAllPage(cards);
+    })
+  .catch(err => {
+    console.log(err)
+});
 
 //инициализация попапов с вызовом api в колбэке
 
 const userInfo = new UserInfo({
   userNameSelector: '.profile__title',
-  userDescriptionSelector: '.profile__subtitle'
+  userDescriptionSelector: '.profile__subtitle',
+  userIdDefault: userId
 });
 
 const userInfoPopup = new PopupWithForm({
   popupSelector: '#popup_edit-profile',
   submitFormHandler: (data) => {
-    userInfoPopup.setLoading(true);
     api.setUserInfo(data)
     .then((res) => {
-      userInfo.setUserInfo( res.name, res.about);
-      userId = res._id;
       userInfoPopup.setLoading(false);
+      userInfo.setUserInfo( res.name, res.about, res.avatar, res._id );
       userInfoPopup.close();
     })
+    .finally(userInfoPopup.setLoading(true))
+    .catch((err) => {
+      console.log(err);
+    }); 
   }
 });
 userInfoPopup.setEventListeners();
@@ -119,20 +128,23 @@ userInfoPopup.setEventListeners();
 const addedPhotoPopup = new PopupWithForm({
   popupSelector: '#popup_add-photo',
   submitFormHandler: (inputValues) => {
-    addedPhotoPopup.setLoading(true);
     api.addNewCard(inputValues)
     .then((res) => {
-      renderCard(res)
       addedPhotoPopup.setLoading(false);
+      renderCard(res)
       addedPhotoPopup.close();
     })
+    .finally( addedPhotoPopup.setLoading(true))
+    .catch((err) => {
+      console.log(err); 
+    }); 
   }
 });
 addedPhotoPopup.setEventListeners();
 
 // установка слушателей на попап удаления фотографии
 
-const deletingPhotoConfirmPopap = new Popup('#popup_delete-photo');
+const deletingPhotoConfirmPopap = new PopupDeletePhoto ('#popup_delete-photo');
 deletingPhotoConfirmPopap.setEventListeners();
 
 //установка слушателей на попап просмотра фотографий
