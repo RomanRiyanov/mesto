@@ -59,6 +59,15 @@ export class FormValidator {
     };
   }
 
+  resetValidation() {
+    this.toggleButtonState();
+
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement)
+    });
+
+  }
+
    _hasInvalidInput = () => {
     return this._inputList.some(function (inputElement) {
       return !inputElement.validity.valid;

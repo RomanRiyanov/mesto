@@ -46,3 +46,16 @@
    export const profileAvatar = document.querySelector('.profile__image');
    export const profileAvatarPopup = document.querySelector('#popup_add-avatar');
    export const popupFormProfileAvatar = profileAvatarPopup.querySelector('#popup__form_add-avatar');
+
+   //текст для клавиш сабмита
+
+   export const submitButtonText = {
+    newCard: {
+      default: 'Сохранить',
+      loading: 'Загрузка...'
+    },
+    deleteCard: {
+      default: 'Да',
+      loading: 'Да...' 
+    }
+   }

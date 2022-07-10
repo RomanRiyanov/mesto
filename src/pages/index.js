@@ -8,6 +8,7 @@ import {UserInfo} from '../components/UserInfo.js';
 import { PopupWithAvatar } from '../components/PopupWithAvatar';
 import { PopupDeletePhoto } from '../components/PopupDeletePhoto';
 import { Api } from '../components/Api';
+import { setLoading } from '../utils/utils.js';
 
 import {
   validationConfig,
@@ -17,6 +18,7 @@ import {
   buttonAddPhoto,
   profileAvatar,
   popupFormProfileAvatar,
+  submitButtonText
 } from '../utils/constants.js';
 
 //функции и константы
@@ -42,11 +44,13 @@ function createCard (item) {
       handleDeleteCard: () => {
         deletingPhotoConfirmPopap.open(() => {
           api.deleteCard(item._id).then(() => {
-            deletingPhotoConfirmPopap.setLoading(false);
+            setLoading('#popup_delete-photo', true, submitButtonText.deleteCard);
             card.delete();
             deletingPhotoConfirmPopap.close();
           })
-          .finally(deletingPhotoConfirmPopap.setLoading(true))
+          .finally(
+            setLoading('#popup_delete-photo', false, submitButtonText.deleteCard)
+          )
           .catch((err) => {
             console.log(err);
           }); 
@@ -78,15 +82,22 @@ Promise.all([apigetCards, apiGetUserInfo])
         popupSelector: '#popup_add-avatar',
         submitFormHandler: (avatar) => {
           api.setUserAvatar(avatar)
-          .then(({avatar}) => {
-            profileAvatar.src = avatar;
+          .then((dataForAvatar) => {
+            setLoading('#popup_add-avatar', true, submitButtonText.newCard);
+            userInfo.setUserInfo(dataForAvatar.name, dataForAvatar.about, dataForAvatar.avatar, dataForAvatar._id);
             addedAvatarPopup.close()
+          })
+          .finally(
+            setLoading('#popup_add-avatar', false, submitButtonText.newCard)
+          )
+          .catch(err => {
+            console.log(err)
           })
         }
       });
       profileAvatar.addEventListener('click', ()=> {
         addedAvatarPopup.open({avatarUrl: ''});
-        viewedAddedAvatarPopup.toggleButtonState();
+        viewedAddedAvatarPopup.resetValidation();
       });
       //валидация формы изменения аватара
       const viewedAddedAvatarPopup = new FormValidator (validationConfig, popupFormProfileAvatar);
@@ -113,11 +124,13 @@ const userInfoPopup = new PopupWithForm({
   submitFormHandler: (data) => {
     api.setUserInfo(data)
     .then((res) => {
-      userInfoPopup.setLoading(false);
+      setLoading('#popup_edit-profile', true, submitButtonText.newCard);
       userInfo.setUserInfo( res.name, res.about, res.avatar, res._id );
       userInfoPopup.close();
     })
-    .finally(userInfoPopup.setLoading(true))
+    .finally(
+      setLoading('#popup_edit-profile', false, submitButtonText.newCard)
+    )
     .catch((err) => {
       console.log(err);
     }); 
@@ -130,11 +143,13 @@ const addedPhotoPopup = new PopupWithForm({
   submitFormHandler: (inputValues) => {
     api.addNewCard(inputValues)
     .then((res) => {
-      addedPhotoPopup.setLoading(false);
+      setLoading('#popup_add-photo', true, submitButtonText.newCard);
       renderCard(res)
       addedPhotoPopup.close();
     })
-    .finally( addedPhotoPopup.setLoading(true))
+    .finally( 
+      setLoading('#popup_add-photo', false, submitButtonText.newCard)
+    )
     .catch((err) => {
       console.log(err); 
     }); 
@@ -154,11 +169,14 @@ imageViewPopupElement.setEventListeners();
 
 //установка слушателей на кнопки открытия попапов
 
-buttonEditProfile.addEventListener('click', () => userInfoPopup.open(userInfo.getUserInfo()));
+buttonEditProfile.addEventListener('click', () => {
+  userInfoPopup.open(userInfo.getUserInfo());
+  viewedEditProfileWindow.resetValidation();
+});
 
 buttonAddPhoto.addEventListener('click', () => {
   addedPhotoPopup.open({ place: '', imageUrl: ''});
-  viewedAddPhotoWindow.toggleButtonState();
+  viewedAddPhotoWindow.resetValidation();
 });
 
 //установка валидации на все формы

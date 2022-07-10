@@ -12,6 +12,7 @@ export class UserInfo {
         const user = {
             user: this._userName.textContent,
             profession: this._userDescription.textContent,
+            avatar: this._profileAvatar.src,
             id: this._userId
         }
         return user;
